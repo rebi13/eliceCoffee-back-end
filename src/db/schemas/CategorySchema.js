@@ -10,5 +10,5 @@ const CategorySchema = new Schema({
     required: true,
   },
 });
-
+ 
 export { CategorySchema };

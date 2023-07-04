@@ -54,4 +54,4 @@ const UserSchema = new Schema({
   }
 });
 
-export { UserSchema };
+export { UserSchema }; 

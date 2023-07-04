@@ -1,5 +1,5 @@
 const { Schema } = require("mongoose");
-const orderSchema = new Schema({
+const OrderSchema = new Schema({
   id: {
     type: String,
     required: true,
@@ -21,3 +21,5 @@ const orderSchema = new Schema({
     required: true,
   },
 });
+
+export { OrderSchema }; 

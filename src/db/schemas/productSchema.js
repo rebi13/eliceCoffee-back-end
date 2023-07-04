@@ -1,5 +1,5 @@
 const { Schema } = require("mongoose");
-const productSchema = new Schema({
+const ProductSchema = new Schema({
   id: {
     type: String,
     required: true,
@@ -17,7 +17,7 @@ const productSchema = new Schema({
     type: Number,
     required: true,
   },
-  kewword: {
+  keyword: {
     type: [String],
   },
   description: {
@@ -31,4 +31,5 @@ const productSchema = new Schema({
   option: String,
 });
 
-mudule.exports = productSchema;
+export { ProductSchema };
+ 

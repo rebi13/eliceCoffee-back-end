@@ -8,12 +8,15 @@ const userRouter = express.Router();
 // router.use(bodyParser.json());
 // router.use(express.static(userPath));
 
-// router.get("/", (req, res) => {
-//   res.sendFile(userPath + "/login.html");
-// });
 
-// router.get("/login", (req, res) => {
-//     res.sendFile(userPath + "/login.html");
-// });
+
+let users = [
+    {id:1, name:'a'},
+    {id:2, name:'b'},
+    {id:3, name:'c'}
+]
+userRouter.get("/", (req, res) => {
+    return res.json(users);
+});
 
 module.exports = userRouter;

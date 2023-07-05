@@ -29,7 +29,6 @@ main = async () => {
     });
   }
 
-  console.log("app start in bin index");
   // 전체 웹 어플리케이션 서버 시작
   app.start();
 };

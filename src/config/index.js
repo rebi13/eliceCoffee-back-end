@@ -18,8 +18,6 @@ if(envFound.MONGODB_URI === undefined) {
     // throw new AppError
 }
 
-console.log("export?");
-console.log(envFound);
 module.exports = {
     applicationName: process.env.APPLICATION_NAME ?? "app", // 어플리케이션 이름
     port: parseInt(process.env.PORT ?? "3000", 10), // PORT 번호 10진수로 parsing, 어플리케이션이 바인딩되는 포트

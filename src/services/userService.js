@@ -25,6 +25,4 @@ class userService {
   }
 }
 
-const userService = {};
-
 module.exports = userService;

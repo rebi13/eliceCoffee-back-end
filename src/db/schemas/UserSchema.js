@@ -23,19 +23,19 @@ const UserSchema = new Schema({
   },
   address: {
     type: String,
-    required: true
+    required: true,
   },
   role: {
     type: String,
-    enum: ['user', 'admin'],
-    default: 'user'
+    enum: ["user", "admin"],
+    default: "user",
   },
   profile: {
     type: String,
   },
   createDate: {
     type: Date,
-    default: new Date,
+    default: new Date(),
   },
   orderList: {
     type: Array,
@@ -47,11 +47,11 @@ const UserSchema = new Schema({
   },
   point: {
     type: Number,
-    default: 0
+    default: 0,
   },
   rank: {
-    type: String
-  }
+    type: String,
+  },
 });
 
-export { UserSchema }; 
+module.exports = UserSchema;

@@ -12,7 +12,7 @@ const OrderSchema = new Schema({
     type: String,
     required: true,
   },
-  userId: {
+  address: {
     type: String,
     requied: true,
   },

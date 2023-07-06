@@ -9,8 +9,9 @@ class UserModel {
   }
 }
 
-module.exports = UserModel;
+const userModel = new UserModel();
 
-// export class UserModel {}
-
-// export const userModel = new UserModel();
+module.exports = {
+  UserModel,
+  userModel,
+};

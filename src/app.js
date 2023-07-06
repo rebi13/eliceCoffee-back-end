@@ -5,6 +5,8 @@ const loader = require("./loader");
 const config = require("./config");
 const apiRouter = require("./router");
 const cookieParser = require("cookie-parser");
+const viewsRouter = require("./router/viewsRouter");
+const bodyParser = require("body-parser");
 
 const create = async () => {
   await loader.connectMongoDB();
@@ -17,6 +19,7 @@ const create = async () => {
   // Content-Type: application/json 형태의 데이터를 인식하고 핸들링할 수 있게 함
   app.use(express.json());
   app.use(cookieParser());
+  app.use(bodyParser.json());
   // health check api? 용도를 모르겠다.
   // app.get("/helath", (req, res, next) => {
   // 	res.json({
@@ -25,6 +28,7 @@ const create = async () => {
   // });
 
   // version 1의 api router 등록
+  app.use(viewsRouter);
   app.use("/api/v1", apiRouter.v1);
 
   // 해당되는 URL이 없을 때를 대비한 미들웨어

@@ -4,6 +4,7 @@ const express = require("express");
 const loader = require("./loader");
 const config = require("./config");
 const apiRouter = require("./router");
+const cookieParser = require("cookie-parser");
 
 const create = async () => {
   await loader.connectMongoDB();
@@ -15,7 +16,7 @@ const create = async () => {
 
   // Content-Type: application/json 형태의 데이터를 인식하고 핸들링할 수 있게 함
   app.use(express.json());
-
+  app.use(cookieParser());
   // health check api? 용도를 모르겠다.
   // app.get("/helath", (req, res, next) => {
   // 	res.json({

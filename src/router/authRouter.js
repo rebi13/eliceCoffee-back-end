@@ -6,7 +6,8 @@ router.post("/login", async (req, res, next) => {
   try {
     const { id, pw } = req.body;
     const userToken = await userService.getUserToken({ id, pw });
-    res.send(userToken);
+    res.cookie("login token", userToken);
+    res.send({ isLogin: true });
   } catch (err) {
     next(err);
   }

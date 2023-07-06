@@ -1,5 +1,7 @@
-const userMiddleware = require('./userMiddleware');
+const userMiddleware = require("./userMiddleware");
+const hashPassword = require("./hashPassword");
 
 module.exports = {
-    userMiddleware,
+  userMiddleware,
+  hashPassword,
 };

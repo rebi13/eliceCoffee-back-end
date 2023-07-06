@@ -29,6 +29,17 @@ class userService {
     const token = jwt.sign({ id }, secretKey, { expiresIn: "1h" });
     return { token };
   }
+
+  static async addUser(userInfo) {
+    const { id, pw, name, email, phone, address, profile } = userInfo;
+    if (!id || !pw || !name || !email || !phone || !address) {
+      throw new Error("필수 정보를 모두 입력해주세요.");
+    }
+    const user = await userModel.fineByEmail(email);
+    if (user) {
+      throw new Error("이미 사용중인 이메일입니다.");
+    }
+  }
 }
 
 module.exports = userService;

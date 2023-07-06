@@ -14,4 +14,9 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
+router.post("/register", async (req, res, next) => {
+  const { id, pw, name, email, phone, address, profile } = req.body;
+  const newUser = await userService.addUser({});
+});
+
 module.exports = router;

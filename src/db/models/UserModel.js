@@ -1,15 +1,15 @@
 const { model } = require("mongoose");
-const { UserSchema } = require("../schemas/UserSchema");
+const UserSchema = require("../schemas/UserSchema");
 
-// const User = model("User", UserSchema);
+const User = model("users", UserSchema);
 
 class UserModel {
-  // async findById(id) {
-  //   return await User.findOne({ id });
-  // }
+  async findById(id) {
+    return await User.findOne({ id });
+  }
 }
 
-// module.exports = UserModel;
+module.exports = UserModel;
 
 // export class UserModel {}
 

@@ -38,7 +38,7 @@ connectMongoDB = async () => {
 // 특히 여러 명이서 한 프로젝트를 개발하는 경우 그럴 가능성이 매우 높아진다. 정말 주의하자. bin/index.js 코드를 보면 프로세스가 죽기 전에 실행하는 코드가 있으니 참고 바란다.
 disconnectMongoDB = async () => {
   await mongoose.disconnect();
-}
+};
 
 module.exports = {
   connectMongoDB,

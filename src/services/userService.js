@@ -42,12 +42,20 @@ class userService {
   }
 
   async duplicateTest(id) {
-    console.log(id);
     const user = await userModel.findById(id);
     if (user) {
-      throw new Error("사용중인 아이디입니다.");
+      throw new Error("이미 사용중인 아이디입니다.");
     }
     return true;
+  }
+
+  async findingId(email) {
+    const user = await userModel.findByEmail(email);
+    if (!user) {
+      throw new Error("가입되지 않은 이메일입니다.");
+    }
+    const userId = user.id;
+    return { userId };
   }
 }
 

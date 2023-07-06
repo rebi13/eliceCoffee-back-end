@@ -10,11 +10,9 @@ class UserModel {
   async findByEmail(email) {
     return await User.findOne({ email });
   }
+  async create(user) {
+    return await User.create(user);
+  }
 }
 
-const userModel = new UserModel();
-
-module.exports = {
-  UserModel,
-  userModel,
-};
+module.exports = new UserModel();

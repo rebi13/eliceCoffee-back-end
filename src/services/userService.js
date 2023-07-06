@@ -32,7 +32,7 @@ class userService {
   }
 
   async addUser(userInfo) {
-    const { id, pw } = userInfo;
+    const { id, pw, name, email, phone, address } = userInfo;
     if (!id || !pw || !name || !email || !phone || !address) {
       throw new Error("필수 정보를 모두 입력해주세요.");
     }

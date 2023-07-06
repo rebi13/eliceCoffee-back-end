@@ -6,7 +6,7 @@ class userService {
   constructor(userModel) {
     this.userModel = userModel;
   }
-  async getUserToken(userInfo) {
+  static async getUserToken(userInfo) {
     const { id, pw } = userInfo;
     if (!id || !pw) {
       throw new Error("ID 혹은 PW를 확인해 주세요.");
@@ -19,8 +19,9 @@ class userService {
     if (!isPasswordCorrect) {
       throw new Error("PW를 확인해 주세요.");
     }
+    const role = user.role;
     const secretKey = process.env.JWT_SECRET_KEY;
-    const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: "1h" });
+    const token = jwt.sign({ id, role }, secretKey, { expiresIn: "1h" });
     return { token };
   }
 }

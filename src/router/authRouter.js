@@ -5,7 +5,8 @@ const router = Router();
 router.post("/login", async (req, res, next) => {
   try {
     const { id, pw } = req.body;
-    const uesrToken = await userServise.getUserToken({ id, pw });
+    const userToken = await userService.getUserToken({ id, pw });
+    res.send(userToken);
   } catch (err) {
     next(err);
   }

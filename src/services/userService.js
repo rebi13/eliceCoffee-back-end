@@ -1,6 +1,7 @@
 const { userModel } = require("../db/models");
 const bcyrpt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { hashPassword } = require("../middlewares/hashPassword");
 
 class userService {
   constructor(userModel) {
@@ -39,6 +40,10 @@ class userService {
     if (user) {
       throw new Error("이미 사용중인 이메일입니다.");
     }
+    const hashedPW = await hashPassword(pw);
+    const newUserInfo = { id, hashedPW, name, email, phone, address, profile };
+    const newUser = await this.userModel.create(newUserInfo);
+    return newUser;
   }
 }
 

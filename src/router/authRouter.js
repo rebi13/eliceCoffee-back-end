@@ -7,7 +7,8 @@ router.post("/login", async (req, res, next) => {
     const id = req.body.id;
     const pw = req.body.pw;
     const userToken = await userService.getUserToken({ id, pw });
-    res.send({ isLogin: true, userToken });
+    res.cookie("loginToken", userToken).send({ isLogin: true });
+    //res.send({ isLogin: true, userToken });
   } catch (err) {
     next(err);
   }
@@ -30,5 +31,7 @@ router.post("/checkDupId", async (req, res, next) => {
   const isDuplicate = await userService.duplicateTest(id);
   res.json(isDuplicate);
 });
+
+router.put("/logout", async (req, res, next) => {});
 
 module.exports = router;

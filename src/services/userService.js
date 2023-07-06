@@ -8,21 +8,21 @@ class userService {
     this.userModel = userModel;
   }
   async getUserToken(userInfo) {
-    const { id, pw } = userInfo;
-    if (!id || !pw) {
-      throw new Error("ID 혹은 PW를 확인해 주세요.");
-    }
-    const user = await this.userModel.findById(id);
-    if (!user) {
-      throw new Error("가입되지 않은 ID입니다.");
-    }
-    const isPasswordCorrect = user.pw === hashPassword(pw);
-    if (!isPasswordCorrect) {
-      throw new Error("PW를 확인해 주세요.");
-    }
-    const role = user.role;
+    // const { id, pw } = userInfo;
+    // if (!id || !pw) {
+    //   throw new Error("ID 혹은 PW를 확인해 주세요.");
+    // }
+    // const user = await this.userModel.findById(id);
+    // if (!user) {
+    //   throw new Error("가입되지 않은 ID입니다.");
+    // }
+    // const isPasswordCorrect = user.pw === hashPassword(pw);
+    // if (!isPasswordCorrect) {
+    //   throw new Error("PW를 확인해 주세요.");
+    // }
+    // const role = user.role;
     const secretKey = process.env.JWT_SECRET_KEY;
-    const token = jwt.sign({ id }, secretKey, { expiresIn: "1h" });
+    const token = jwt.sign({ id: "123" }, secretKey, { expiresIn: "1h" });
     return { token };
   }
 

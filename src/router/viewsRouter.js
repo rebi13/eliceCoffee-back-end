@@ -1,14 +1,13 @@
-import express from "express";
-import path from "path";
-
+const express = require("express");
+const path = require("path");
 const viewsRouter = express.Router();
 
 /**
  * 페이지별로 html, css, js 파일들을 라우팅함
- * 
+ *
  * 예시
  * --- http://localhost:3000/           -> /views/home/home.html,
- * --- http://localhost:3000/register   -> /views/register/register.html 
+ * --- http://localhost:3000/register   -> /views/register/register.html
  */
 viewsRouter.use("/", serveStatic("home"));
 viewsRouter.use("/register", serveStatic("register"));
@@ -19,7 +18,7 @@ viewsRouter.use("/", serveStatic(""));
 
 // views폴더 내의 ${resource} 폴더 내의 모든 파일을 웹에 띄우며,
 // 이 때 ${resource}.html 을 기본 파일로 설정함.
-serveStatic = (resource, fileName = resource) => {
+function serveStatic(resource, fileName = resource) {
   const resourcePath = path.join(__dirname, `../views/${resource}`);
   const option = { index: `${fileName}.html` };
 
@@ -27,4 +26,4 @@ serveStatic = (resource, fileName = resource) => {
   return express.static(resourcePath, option);
 }
 
-export { viewsRouter };
+module.exports = viewsRouter;

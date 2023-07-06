@@ -22,7 +22,7 @@ class userService {
     }
     const role = user.role;
     const secretKey = process.env.JWT_SECRET_KEY;
-    const token = jwt.sign({ id }, secretKey, { expiresIn: "1h" });
+    const token = jwt.sign({ id, role }, secretKey, { expiresIn: "1h" });
     return { token };
   }
 

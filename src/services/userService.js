@@ -16,7 +16,6 @@ class userService {
     if (!user) {
       throw new Error("가입되지 않은 ID입니다.");
     }
-    console.log(user);
     const isPasswordCorrect = user.pw === hashPassword(pw);
     if (!isPasswordCorrect) {
       throw new Error("PW를 확인해 주세요.");
@@ -43,6 +42,7 @@ class userService {
   }
 
   async duplicateTest(id) {
+    console.log(id);
     const user = await userModel.findById(id);
     if (user) {
       throw new Error("사용중인 아이디입니다.");

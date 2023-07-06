@@ -7,7 +7,6 @@ router.post("/login", async (req, res, next) => {
     const id = req.body.id;
     const pw = req.body.pw;
     const userToken = await userService.getUserToken({ id, pw });
-    //res.cookie("login token", userToken);
     res.send({ isLogin: true, userToken });
   } catch (err) {
     next(err);
@@ -26,8 +25,9 @@ router.post("/register", async (req, res, next) => {
   res.json(newUser);
 });
 
-router.get("/checkDupId", async (req, res, next) => {
-  const isDuplicate = await userService.duplicateTest(req.body);
+router.post("/checkDupId", async (req, res, next) => {
+  const { id } = req.body;
+  const isDuplicate = await userService.duplicateTest(id);
   res.json(isDuplicate);
 });
 

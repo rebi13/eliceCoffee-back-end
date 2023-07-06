@@ -1,57 +1,62 @@
 const { Schema } = require("mongoose");
 
-const UserSchema = new Schema({
-  id: {
-    type: String,
-    required: true,
+const UserSchema = new Schema(
+  {
+    id: {
+      type: String,
+      required: true,
+    },
+    pw: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+    profile: {
+      type: String,
+    },
+    createDate: {
+      type: Date,
+      default: new Date(),
+    },
+    orderList: {
+      type: Array,
+      default: [],
+    },
+    wishList: {
+      type: Array,
+      default: [],
+    },
+    point: {
+      type: Number,
+      default: 0,
+    },
+    rank: {
+      type: String,
+    },
   },
-  pw: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true
-  },
-  role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user'
-  },
-  profile: {
-    type: String,
-  },
-  createDate: {
-    type: Date,
-    default: new Date,
-  },
-  orderList: {
-    type: Array,
-    default: [],
-  },
-  wishList: {
-    type: Array,
-    default: [],
-  },
-  point: {
-    type: Number,
-    default: 0
-  },
-  rank: {
-    type: String
+  {
+    collection: "users",
   }
-});
+);
 
-export { UserSchema }; 
+module.exports = UserSchema;

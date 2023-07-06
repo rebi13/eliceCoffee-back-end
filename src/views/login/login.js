@@ -28,24 +28,7 @@ document
     }
     // 입력 값이 조건에 맞을 경우, 로그인 처리를 진행합니다.
     // 로그인 처리를 완료한 후 메인 페이지로 이동합니다.
-    // const url = "http://127.0.0.1:3000/api/v1/auth/login";
-    // fetch(url, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     id: userId,
-    //     pw: password,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     if (res.isLogin) console.log(res);
-    //     //window.location.href = "/front-end/src/views/home/home.html";
-    //   });
-
-    const url = "http://127.0.0.1:3000/api/v1/auth/register";
+    const url = "http://127.0.0.1:3000/api/v1/auth/login";
     fetch(url, {
       method: "POST",
       headers: {
@@ -58,7 +41,7 @@ document
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+        if (res.isLogin) console.log(res);
         //window.location.href = "/front-end/src/views/home/home.html";
       });
   });

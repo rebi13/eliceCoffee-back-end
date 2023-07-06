@@ -31,23 +31,18 @@ class userService {
     return { token };
   }
 
-  // async addUser(userInfo) {
-  //   const { id, pw } = userInfo;
-  // if (!id || !pw || !name || !email || !phone || !address) {
-  //   throw new Error("필수 정보를 모두 입력해주세요.");
-  // }
-  //   const user = await userModel.findByEmail(email);
-  //   if (user) {
-  //     throw new Error("이미 사용중인 이메일입니다.");
-  //   }
-  //   const hashedPW = await hashPassword(pw);
-  //   const newUserInfo = { id, hashedPW };
-  //   const newUser = await this.userModel.create(newUserInfo);
-  //   return newUser;
-  // }
   async addUser(userInfo) {
-    console.log(userInfo);
-    const newUser = await this.userModel.create(userInfo);
+    const { id, pw } = userInfo;
+    if (!id || !pw || !name || !email || !phone || !address) {
+      throw new Error("필수 정보를 모두 입력해주세요.");
+    }
+    const user = await userModel.findByEmail(email);
+    if (user) {
+      throw new Error("이미 사용중인 이메일입니다.");
+    }
+    const hashedPW = await hashPassword(pw);
+    const newUserInfo = { id, hashedPW };
+    const newUser = await this.userModel.create(newUserInfo);
     return newUser;
   }
 }

@@ -15,23 +15,7 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.post("/register", async (req, res, next) => {
-  // const { id, pw, name, email, phone, address, profile } = req.body;
-  // const newUser = await userService.addUser({
-  //   id,
-  //   pw,
-  //   name,
-  //   email,
-  //   phone,
-  //   address,
-  //   profile,
-  // });
-  // res.json(newUser);
-  const id = "myId";
-  const pw = "myPw";
-  const name = "myName";
-  const email = "myEmail";
-  const phone = "myPhone";
-  const address = "myAddress";
+  const { id, pw, name, email, phone, address, profile } = req.body;
   const newUser = await userService.addUser({
     id,
     pw,
@@ -39,6 +23,7 @@ router.post("/register", async (req, res, next) => {
     email,
     phone,
     address,
+    profile,
   });
   res.json(newUser);
 });

@@ -45,6 +45,14 @@ class userService {
     const newUser = await this.userModel.create(newUserInfo);
     return newUser;
   }
+
+  async duplicateTest(id) {
+    const user = await userModel.findById(id);
+    if (user) {
+      throw new Error("사용중인 아이디입니다.");
+    }
+    return true;
+  }
 }
 
 module.exports = new userService(userModel);

@@ -28,4 +28,9 @@ router.post("/register", async (req, res, next) => {
   res.json(newUser);
 });
 
+router.get("/checkDupId", async (req, res, next) => {
+  const isDuplicate = await userService.duplicateTest(req.body);
+  res.json(isDuplicate);
+});
+
 module.exports = router;

@@ -15,15 +15,13 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.post("/register", async (req, res, next) => {
-  const { id, pw, name, email, phone, address, profile } = req.body;
+  const { id, pw, name, email, phone } = req.body;
   const newUser = await userService.addUser({
     id,
     pw,
     name,
     email,
     phone,
-    address,
-    profile,
   });
   res.json(newUser);
 });

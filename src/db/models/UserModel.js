@@ -13,6 +13,10 @@ class UserModel {
   async create(user) {
     return await User.create(user);
   }
+  async resetPassword(userInfo) {
+    const { id, hashedRPW } = userInfo;
+    return await User.updateOne({ id: id }, { $set: { pw: hashedRPW } });
+  }
 }
 
 module.exports = new UserModel();

@@ -2,6 +2,7 @@ const userModel = require("../db/models");
 const bcyrpt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { hashPassword } = require("../middlewares");
+const { randomPassword } = require("../middlewares");
 
 class userService {
   constructor(userModel) {
@@ -56,6 +57,21 @@ class userService {
     }
     const userId = user.id;
     return { userId };
+  }
+
+  async resetPW(userInfo) {
+    const { id, email } = userInfo;
+    const user = await userModel.findById(id);
+    if (!user) {
+      throw new Error("가입되지 않은 아이디입니다.");
+    }
+    if (user.email !== email) {
+      throw new Error("가입되지 않은 이메일입니다.");
+    }
+    const randompw = randomPassword();
+    const hashedRPW = hashPassword(randompw);
+    await this.userModel.resetPassword({ id, hashedRPW });
+    return randompw;
   }
 }
 

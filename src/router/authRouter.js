@@ -35,4 +35,10 @@ router.put("/logout", async (req, res, next) => {
   return res.clearCookie("loginToken").end();
 });
 
+router.post("/search-id", async (req, res, next) => {
+  const { email } = req.body;
+  const userId = await userService.findingId(email);
+  res.json(userId);
+});
+
 module.exports = router;

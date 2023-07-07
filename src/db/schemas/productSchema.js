@@ -31,5 +31,5 @@ const ProductSchema = new Schema({
   option: String,
 });
 
-export { ProductSchema };
+module.exports = ProductSchema ;
  

@@ -5,14 +5,19 @@ const OrderSchema = new Schema({
     required: true,
   },
   items: {
-    type: [Schema.Type.ObjectId],
-    ref: "Product",
+    type: Schema.Types.Array,
+    element: {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+    },
+    // type: [Schema.Type.ObjectId],
+    // ref: "Product",
   },
   userId: {
     type: String,
     required: true,
   },
-  userId: {
+  address: {
     type: String,
     requied: true,
   },
@@ -22,4 +27,4 @@ const OrderSchema = new Schema({
   },
 });
 
-export { OrderSchema }; 
+module.exports = OrderSchema;

@@ -1,4 +1,4 @@
-const productModel = require("../db/models");
+const productModel = require("../db/models/ProductModel");
 const { hashPassword } = require("../middlewares");
 
 class productService {
@@ -7,14 +7,14 @@ class productService {
   }
     // 특정 id를 갖는 하나의 게시글을 가져오는 메소드
     async getProduct(id) {
-        // 아래 계층에 있는 DAO를 호출!
-        const post = await this.productModel.findOne(id);
-        return post;
+        const product = await this.productModel.findOne(id);
+        return product;
     }
     // 특정 조건(title과 author)에 맞는 여러 개의 게시글을 가져오는 메소드
-    async getProducts() { // { title, author }
-        const posts = await this.productModel.findMany();
-        return posts;
+    async getProducts() { 
+        // { title, author }
+        const products = await this.productModel.find();
+        return products;
     }
 }
 

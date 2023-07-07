@@ -53,6 +53,10 @@ const UserSchema = new Schema(
     rank: {
       type: String,
     },
+    isActivated: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     collection: "users",

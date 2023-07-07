@@ -22,6 +22,9 @@ class userService {
     if (!isPasswordCorrect) {
       throw new Error("PW를 확인해 주세요.");
     }
+    if (!user.isActivated) {
+      throw new Error("탈퇴한 사용자입니다.");
+    }
     const role = user.role;
     const secretKey = process.env.JWT_SECRET_KEY;
     const token = jwt.sign({ id, role }, secretKey, { expiresIn: "1h" });
@@ -34,6 +37,9 @@ class userService {
       throw new Error("필수 정보를 모두 입력해주세요.");
     }
     const user = await userModel.findByEmail(email);
+    if (!user.isActivated) {
+      throw new Error("탈퇴한 사용자입니다.");
+    }
     if (user) {
       throw new Error("이미 사용중인 이메일입니다.");
     }
@@ -48,6 +54,9 @@ class userService {
     if (user) {
       throw new Error("이미 사용중인 아이디입니다.");
     }
+    if (!user.isActivated) {
+      throw new Error("탈퇴한 사용자입니다.");
+    }
     return true;
   }
 
@@ -55,6 +64,9 @@ class userService {
     const user = await userModel.findByEmail(email);
     if (!user) {
       throw new Error("가입되지 않은 이메일입니다.");
+    }
+    if (!user.isActivated) {
+      throw new Error("탈퇴한 사용자입니다.");
     }
     const userId = user.id;
     return { userId };
@@ -69,6 +81,9 @@ class userService {
     if (user.email !== email) {
       throw new Error("가입되지 않은 이메일입니다.");
     }
+    if (!user.isActivated) {
+      throw new Error("탈퇴한 사용자입니다.");
+    }
     const randompw = randomPassword();
     const hashedRPW = hashPassword(randompw);
     await this.userModel.resetPassword({ id, hashedRPW });
@@ -80,10 +95,12 @@ class userService {
     const token = userToken;
     const userId = jwt.verify(token, process.env.JWT_SECRET_KEY).id;
     const hashedPW = hashPassword(pw);
-    console.log(address);
-    await this.userModel.editUser({ userId, address, hashedPW });
-    const user = await userModel.findById(userId);
-    console.log(user);
+    return await this.userModel.editUser({ userId, address, hashedPW });
+  }
+
+  async deleteUser(userToken) {
+    const userId = jwt.verify(userToken, process.env.JWT_SECRET_KEY).id;
+    return await this.userModel.deleteUser(userId);
   }
 }
 

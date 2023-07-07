@@ -24,6 +24,10 @@ class UserModel {
       { $set: { address: address, pw: hashedPW } }
     );
   }
+
+  async deleteUser(id) {
+    return await User.updateOne({ id: id }, { $set: { isActivated: false } });
+  }
 }
 
 module.exports = new UserModel();

@@ -91,4 +91,14 @@ router.put("/me", async (req, res, next) => {
   }
 });
 
+router.put("/withdrawal", async (req, res, next) => {
+  try {
+    const userToken = req.cookies.loginToken.token;
+    const deleteUser = await userService.deleteUser(userToken);
+    res.json(deleteUser);
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;

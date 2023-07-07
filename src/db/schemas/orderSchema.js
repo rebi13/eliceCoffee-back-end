@@ -6,12 +6,16 @@ const OrderSchema = new Schema({
   },
   items: {
     type: Schema.Types.Array,
-    element: {
+    items: {
       type: Schema.Types.ObjectId,
       ref: "Product",
     },
     // type: [Schema.Type.ObjectId],
     // ref: "Product",
+  },
+  itemTotal: {
+    type: Number,
+    required: true,
   },
   userId: {
     type: String,
@@ -19,11 +23,21 @@ const OrderSchema = new Schema({
   },
   address: {
     type: String,
-    requied: true,
+    required: true,
+  },
+  receiver: {
+    type: String,
+    required: true,
+  },
+  orderDate: {
+    type: Date,
+    required: true,
+    default: new Date()
   },
   status: {
     type: String,
     required: true,
+    default: "paid"
   },
 });
 

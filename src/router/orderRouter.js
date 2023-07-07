@@ -1,11 +1,15 @@
 const { Router } = require("express");
-const { orderService } = require("../services");
+const orderService = require("../services/orderService");
 const utils = require("../misc/utils");
 const router = Router();
 
 router.get("/", async (req, res, next) => {
   try {
-    const id = req.currentUserId;
+    const id = req.body.userId;
+    const id2 = req.currentUserId;
+    console.log('도니?');
+    console.log(id);
+    console.log(id2);
     const orderInfo = await orderService.getOrderInfo(id);
     // res.status(201).json(orderInfo);
     res.json(utils.buildResponse(orderInfo));
@@ -38,12 +42,23 @@ router.put("/:orderId", async (req, res, next) => {
   }
 });
 
-// router.post("/", async (req, res, next) => {
-//   try {
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+router.post("/", async (req, res, next) => {
+  try {
+    const { id, items, itemTotal, userId, address, receiver, status } = req.body;
+ 
+    if (!id || !items || !itemTotal || !userId || !address || !receiver || !status) {
+      throw new Error("필수 정보를 모두 입력해주세요.");
+    }
+    
+    const data = await orderService.postOrder({ id, items, itemTotal, userId, address, receiver, status });
+
+    res.json(utils.buildResponse(data));
+
+    return data;
+  } catch (err) {
+    next(err);
+  }
+});
 
 
 module.exports = router;

@@ -41,7 +41,7 @@ document
     })
       .then((res) => res.json())
       .then((res) => {
-        if (res.isLogin) console.log(res);
+        console.log(res.cookie);
         //window.location.href = "/front-end/src/views/home/home.html";
       });
   });

@@ -17,6 +17,13 @@ class UserModel {
     const { id, hashedRPW } = userInfo;
     return await User.updateOne({ id: id }, { $set: { pw: hashedRPW } });
   }
+  async editUser(userInfo) {
+    const { userId, address, hashedPW } = userInfo;
+    await User.updateOne(
+      { id: userId },
+      { $set: { address: address, pw: hashedPW } }
+    );
+  }
 }
 
 module.exports = new UserModel();

@@ -12,26 +12,36 @@ class AdminService {
 
   // 상품 등록 관리자
   async addProduct(product) {
-    const { id, name,
-        categoryId,
-        price,
-        subImage,
-        keyWord,
-        description,
-        mainImage } = product;
-        console.log(id, name, categoryId,
-            price,
-            subImage,
-            keyWord,
-            description,
-            mainImage);
+    const { id, name, categoryId, price, subImage, keyWord, description, mainImage } = product;
     if (!id || !name || !categoryId || !price || !subImage || !keyWord || !description || !mainImage) {
       throw new Error("필수 정보를 모두 입력해주세요.");
     }
-    console.log("service model 접근전");
-    const data = await this.productModel.create(product);
-    return data;
+    const result = await this.productModel.create(product);
+    return result;
   }
+
+  // 상품 단건 조회 관리자
+  async getProduct(productId) {
+    const product = await this.productModel.findOne(productId);
+    return product;
+  }
+
+  // 상품 단건 수정 관리자
+  async putProduct(product) {
+    const { id, name, categoryId, price, subImage, keyWord, description, mainImage } = product;
+    if (!id || !name || !categoryId || !price || !subImage || !keyWord || !description || !mainImage) {
+      throw new Error("필수 정보를 모두 입력해주세요.");
+    }
+    const result = await this.productModel.update(product);
+    return result;
+  }
+  
+  // 상품 단건 삭제 관리자
+  async deleteProduct(productId) {
+    const result = await this.productModel.deleteOne(productId);
+    return result;
+  }
+
 }
 
 module.exports = new AdminService(productModel, orderModel);

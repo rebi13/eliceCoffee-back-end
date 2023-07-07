@@ -37,10 +37,6 @@ const UserSchema = new Schema(
       type: Date,
       default: new Date(),
     },
-    orderList: {
-      type: Array,
-      default: [],
-    },
     wishList: {
       type: Array,
       default: [],

@@ -41,4 +41,27 @@ router.delete("/products/:id", asyncHandler( async (req, res, next) => {
 })
 );
 
+// 주문 내역 확인하기 (사용자 전체)
+router.get("/orders", asyncHandler( async (req, res, next) => {
+  const orders = await adminService.getOrders();
+  res.json(utils.buildResponse(orders));
+})
+);
+
+// 주문 내역 확인하기 (특정 사용자)
+router.get("/orders/:id", asyncHandler( async (req, res, next) => {
+  const { id } = req.params;
+  const order = await adminService.getOrder(id);
+  res.json(utils.buildResponse(order));
+})
+);
+
+// 특정 주문 내역 삭제하기 (orderId)
+router.delete("/orders/:id", asyncHandler( async (req, res, next) => {
+  const { id } = req.params;
+  const order = await adminService.deleteOrder(id);
+  res.json(utils.buildResponse(order));
+})
+);
+
 module.exports = router;

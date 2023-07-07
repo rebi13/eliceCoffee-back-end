@@ -42,6 +42,22 @@ class AdminService {
     return result;
   }
 
+  // 주문 내역 전체 조회 관리자
+  async getOrders() {
+    const orders = await this.orderModel.getOrders();
+    return orders;
+  }
+
+  // 주문 내역 특정 사용자 조회 관리자
+  async getOrder(id) {
+    const order = await this.orderModel.getOrder(id);
+    return order;
+  }
+
+  async deleteOrder(id) {
+    const result = await this.orderModel.deleteOrder(id);
+    return result;
+  }
 }
 
 module.exports = new AdminService(productModel, orderModel);

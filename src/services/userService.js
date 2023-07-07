@@ -3,6 +3,7 @@ const bcyrpt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { hashPassword } = require("../middlewares");
 const { randomPassword } = require("../middlewares");
+require("dotenv").config();
 
 class userService {
   constructor(userModel) {
@@ -36,7 +37,7 @@ class userService {
     if (user) {
       throw new Error("이미 사용중인 이메일입니다.");
     }
-    const hashedPW = await hashPassword(pw);
+    const hashedPW = hashPassword(pw);
     const newUserInfo = { id, pw: hashedPW, name, email, phone };
     const newUser = await this.userModel.create(newUserInfo);
     return newUser;
@@ -72,6 +73,17 @@ class userService {
     const hashedRPW = hashPassword(randompw);
     await this.userModel.resetPassword({ id, hashedRPW });
     return randompw;
+  }
+
+  async editUser(userInfo, userToken) {
+    const { address, pw } = userInfo;
+    const token = userToken;
+    const userId = jwt.verify(token, process.env.JWT_SECRET_KEY).id;
+    const hashedPW = hashPassword(pw);
+    console.log(address);
+    await this.userModel.editUser({ userId, address, hashedPW });
+    const user = await userModel.findById(userId);
+    console.log(user);
   }
 }
 

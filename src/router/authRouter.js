@@ -2,6 +2,7 @@ const { Router } = require("express");
 const { userService } = require("../services");
 const transPorter = require("../config/email");
 const router = Router();
+const jwt = require("jsonwebtoken");
 
 router.post("/login", async (req, res, next) => {
   try {
@@ -31,9 +32,13 @@ router.post("/register", async (req, res, next) => {
 });
 
 router.post("/checkDupId", async (req, res, next) => {
-  const { id } = req.body;
-  const isDuplicate = await userService.duplicateTest(id);
-  res.json(isDuplicate);
+  try {
+    const { id } = req.body;
+    const isDuplicate = await userService.duplicateTest(id);
+    res.json(isDuplicate);
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.put("/logout", async (req, res, next) => {
@@ -41,9 +46,13 @@ router.put("/logout", async (req, res, next) => {
 });
 
 router.post("/search-id", async (req, res, next) => {
-  const { email } = req.body;
-  const userId = await userService.findingId(email);
-  res.json(userId);
+  try {
+    const { email } = req.body;
+    const userId = await userService.findingId(email);
+    res.json(userId);
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.patch("/reset-pw", async (req, res, next) => {
@@ -63,6 +72,23 @@ router.patch("/reset-pw", async (req, res, next) => {
     res.send(resetPw);
     sendEmail.close();
   });
+});
+
+router.put("/me", async (req, res, next) => {
+  try {
+    const { address, pw } = req.body;
+    const userToken = req.cookies.loginToken.token;
+    const editUser = await userService.editUser(
+      {
+        address,
+        pw,
+      },
+      userToken
+    );
+    res.json(editUser);
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;

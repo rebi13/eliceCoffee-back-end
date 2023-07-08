@@ -8,14 +8,17 @@ class OrderService {
   async getOrderInfo(userId) {
     return await this.orderModel.findByUserId(userId);
   }
-  async putOrderCancel(orderId) {
-    return await this.orderModel.cancelOrder(orderId);
+  async putOrder(orderId, param) {
+    return await this.orderModel.putOrder(orderId, param);
   }
-  async putOrderAddress(orderId) {
-    return await this.orderModel.updateAddress(orderId);
-  }
+  // async putOrderCancel(orderId) {
+  //   return await this.orderModel.cancelOrder(orderId);
+  // }
+  // async putOrderAddress(orderId) {
+  //   return await this.orderModel.updateAddress(orderId);
+  // }
   async postOrder(orderInfo) {
-    return await this.orderModel.putOrder(orderInfo);
+    return await this.orderModel.postOrder(orderInfo);
   }
 }
 

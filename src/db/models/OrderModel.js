@@ -14,8 +14,13 @@ class OrderModel {
   }
 
   // 주문 정보를 저장한다.
-  async putOrder(orderInfo) {
+  async postOrder(orderInfo) {
     return await Order.create(orderInfo);
+  }
+
+  // 주문 정보를 수정한다 (주문 취소 or 배송지 변경)
+  async putOrder(orderId, param) {
+    return await Order.updateOne({id: orderId}, { $set: param });
   }
 
   // 주문 내역을 전체 조회한다. (관리자)

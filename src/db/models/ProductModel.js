@@ -11,13 +11,13 @@ class ProductModel {
     return await Product.find();
   }
   async findOne(productId) {
-    return await Product.findOne({id: productId});
+    return await Product.findOne({ id: productId });
   }
   async updateOne(product) {
     return await Product.updateOne(product);
   }
   async deleteOne(productId) {
-    return await Product.deleteOne({id: productId});
+    return await Product.deleteOne({ id: productId });
   }
 }
 

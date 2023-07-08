@@ -1,13 +1,15 @@
 const productModel = require("../db/models/ProductModel");
 const orderModel = require("../db/models/OrderModel");
+const categoryModel = require("../db/models/CategoryModel");
 const bcyrpt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { hashPassword } = require("../middlewares");
 
 class AdminService {
-  constructor(productModel, orderModel) {
+  constructor(productModel, orderModel, categoryModel) {
     this.productModel = productModel;
     this.orderModel = orderModel;
+    this.categoryModel = categoryModel;
   }
 
   // 상품 등록 관리자
@@ -35,7 +37,7 @@ class AdminService {
     const result = await this.productModel.update(product);
     return result;
   }
-  
+
   // 상품 단건 삭제 관리자
   async deleteProduct(productId) {
     const result = await this.productModel.deleteOne(productId);
@@ -58,6 +60,12 @@ class AdminService {
     const result = await this.orderModel.deleteOrder(id);
     return result;
   }
+  //카테고리 추가
+  async addCategory(categoryInfo) {
+    const { id, name } = categoryInfo;
+    const result = await this.categoryModel.create({ id, name });
+    return result;
+  }
 }
 
-module.exports = new AdminService(productModel, orderModel);
+module.exports = new AdminService(productModel, orderModel, categoryModel);

@@ -63,14 +63,19 @@ router.delete("/orders/:id", asyncHandler(async (req, res, next) => {
   res.json(utils.buildResponse(order));
 })
 );
+
 // 카테고리 추가
 router.post('/categories', asyncHandler(async (req, res, next) => {
   const { id, name } = req.body;
-  if (!id || !name) {
-    throw new Error("필수 정보를 모두 입력해 주세요.");
-  }
   const newCategory = await adminService.addCategory({ id, name });
   res.json(utils.buildResponse(newCategory));
-}))
+}));
+
+//카테고리 조회
+router.get("/categories/:id", asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const category = await adminService.getCategory(id);
+  res.json(utils.buildResponse(category))
+}));
 
 module.exports = router;

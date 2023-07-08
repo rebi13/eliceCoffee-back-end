@@ -114,6 +114,7 @@ class AdminService {
       throw new Error("존재하지 않는 카테고리입니다.");
     }
     const result = await this.categoryModel.deleteCategory(id);
+    return result;
   }
   
   // 주문 내역 주문상태 변경 관리자

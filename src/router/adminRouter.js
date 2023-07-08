@@ -93,6 +93,7 @@ router.delete('/categories/:id', asyncHandler(async (req, res, next) => {
   res.json(utils.buildResponse(category))
 }))
 
+// 주문상태 수정
 router.put("/orders/:id", asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const { status } = req.body;

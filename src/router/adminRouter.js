@@ -78,4 +78,12 @@ router.get("/categories/:id", asyncHandler(async (req, res, next) => {
   res.json(utils.buildResponse(category))
 }));
 
+//카테고리 수정
+router.put("/categories/:id", asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  const category = await adminService.putCategory({ id, name });
+  res.json(utils.buildResponse(category));
+}))
+
 module.exports = router;

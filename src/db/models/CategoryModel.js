@@ -16,6 +16,10 @@ class CategoryModel {
     async findByName(name) {
         return await Category.findOne({ name: name });
     }
+    async update(categoryInfo) {
+        const { id, name } = categoryInfo;
+        return await Category.updateOne({ id: id }, { $set: { name: name } })
+    }
 }
 
 module.exports = new CategoryModel();

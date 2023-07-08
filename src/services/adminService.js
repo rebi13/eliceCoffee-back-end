@@ -85,6 +85,19 @@ class AdminService {
     const result = await this.categoryModel.findById(id);
     return result;
   }
+  //카테고리 수정
+  async putCategory(categoryInfo) {
+    const { id, name } = categoryInfo;
+    if (!id || !name) {
+      throw new Error("필수정보를 입력해주세요.");
+    }
+    const category = await this.categoryModel.findById(id);
+    if (!category) {
+      throw new Error("존재하지 않는 카테고리입니다.");
+    }
+    const result = await this.categoryModel.update(categoryInfo);
+    return result;
+  }
 }
 
 module.exports = new AdminService(productModel, orderModel, categoryModel);

@@ -13,8 +13,23 @@ class OrderModel {
     return await Order.updateOne(orderId, {status});
   }
 
+  // 주문 정보를 저장한다.
   async putOrder(orderInfo) {
     return await Order.create(orderInfo);
+  }
+
+  // 주문 내역을 전체 조회한다. (관리자)
+  async getOrders() {
+    return await Order.find({});
+  }
+
+  // 특정 사용자의 주문 내역을 조회한다. (관리자)
+  async getOrder(id) {
+    return await Order.find({userId: id});
+  }
+
+  async deleteOrder(id) {
+    return await Order.deleteOne({ id });
   }
 }
 

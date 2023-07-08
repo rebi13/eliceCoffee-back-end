@@ -86,4 +86,11 @@ router.put("/categories/:id", asyncHandler(async (req, res, next) => {
   res.json(utils.buildResponse(category));
 }))
 
+//카테고리 삭제
+router.delete('/categories/:id', asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const category = await adminService.deleteCategory(id);
+  res.json(utils.buildResponse(category))
+}))
+
 module.exports = router;

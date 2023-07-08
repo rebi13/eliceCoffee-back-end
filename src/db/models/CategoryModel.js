@@ -20,6 +20,9 @@ class CategoryModel {
         const { id, name } = categoryInfo;
         return await Category.updateOne({ id: id }, { $set: { name: name } })
     }
+    async deleteCategory(id) {
+        return await Category.deleteOne({ id });
+    }
 }
 
 module.exports = new CategoryModel();

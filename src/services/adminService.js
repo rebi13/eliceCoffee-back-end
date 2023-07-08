@@ -82,6 +82,10 @@ class AdminService {
     if (!id) {
       throw new Error("필수정보를 입력해주세요.");
     }
+    const category = await this.categoryModel.findById(id);
+    if (!category) {
+      throw new Error("존재하지 않는 카테고리입니다.");
+    }
     const result = await this.categoryModel.findById(id);
     return result;
   }
@@ -96,6 +100,19 @@ class AdminService {
       throw new Error("존재하지 않는 카테고리입니다.");
     }
     const result = await this.categoryModel.update(categoryInfo);
+    return result;
+  }
+
+  //카테고리 삭제
+  async deleteCategory(id) {
+    if (!id) {
+      throw new Error("필수정보를 입력해주세요");
+    }
+    const category = await this.categoryModel.findById(id);
+    if (!category) {
+      throw new Error("존재하지 않는 카테고리입니다.");
+    }
+    const result = await this.categoryModel.deleteCategory(id);
     return result;
   }
 }

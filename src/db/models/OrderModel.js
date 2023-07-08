@@ -31,6 +31,11 @@ class OrderModel {
   async deleteOrder(id) {
     return await Order.deleteOne({ id });
   }
+
+  // 주문 상태를 변경한다. (관리자)
+  async putStatus(id, status) {
+    return await Order.updateOne({id}, { status });
+  }
 }
 
 module.exports = new OrderModel();

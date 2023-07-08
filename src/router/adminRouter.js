@@ -93,4 +93,12 @@ router.delete('/categories/:id', asyncHandler(async (req, res, next) => {
   res.json(utils.buildResponse(category))
 }))
 
+router.put("/orders/:id", asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  const order = await adminService.putStatus(id, status);
+  res.json(utils.buildResponse(order));
+})
+);
+
 module.exports = router;

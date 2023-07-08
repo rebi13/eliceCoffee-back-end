@@ -2,7 +2,7 @@ const { Router } = require("express");
 const { userService } = require("../services");
 const transPorter = require("../config/email");
 const router = Router();
-const jwt = require("jsonwebtoken");
+const { isAuthenticated } = require("../middlewares");
 
 router.post("/login", async (req, res, next) => {
   try {
@@ -74,17 +74,15 @@ router.patch("/reset-pw", async (req, res, next) => {
   });
 });
 
-router.put("/me", async (req, res, next) => {
+router.put("/me", isAuthenticated, async (req, res, next) => {
   try {
     const { address, pw } = req.body;
-    const userToken = req.cookies.loginToken.token;
-    const editUser = await userService.editUser(
-      {
-        address,
-        pw,
-      },
-      userToken
-    );
+    const userId = req.userId;
+    const editUser = await userService.editUser({
+      userId,
+      address,
+      pw,
+    });
     res.json(editUser);
   } catch (err) {
     next(err);

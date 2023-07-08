@@ -18,6 +18,8 @@ class userService {
     if (!user) {
       throw new Error("가입되지 않은 ID입니다.");
     }
+    console.log(user.pw);
+    console.log(hashPassword(pw));
     const isPasswordCorrect = user.pw === hashPassword(pw);
     if (!isPasswordCorrect) {
       throw new Error("PW를 확인해 주세요.");
@@ -37,14 +39,14 @@ class userService {
       throw new Error("필수 정보를 모두 입력해주세요.");
     }
     const user = await userModel.findByEmail(email);
-    if (!user.isActivated) {
-      throw new Error("탈퇴한 사용자입니다.");
-    }
     if (user) {
+      if (!user.isActivated) {
+        throw new Error("탈퇴한 사용자입니다.");
+      }
       throw new Error("이미 사용중인 이메일입니다.");
     }
     const hashedPW = hashPassword(pw);
-    const newUserInfo = { id, pw: hashedPW, name, email, phone };
+    const newUserInfo = { id, hashedPW, name, email, phone };
     const newUser = await this.userModel.create(newUserInfo);
     return newUser;
   }
@@ -90,10 +92,8 @@ class userService {
     return randompw;
   }
 
-  async editUser(userInfo, userToken) {
-    const { address, pw } = userInfo;
-    const token = userToken;
-    const userId = jwt.verify(token, process.env.JWT_SECRET_KEY).id;
+  async editUser(userInfo) {
+    const { userId, address, pw } = userInfo;
     const hashedPW = hashPassword(pw);
     return await this.userModel.editUser({ userId, address, hashedPW });
   }

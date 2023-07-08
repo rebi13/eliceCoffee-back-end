@@ -54,8 +54,15 @@ class AdminService {
     return order;
   }
 
+  // 주문 내역 삭제 관리자
   async deleteOrder(id) {
     const result = await this.orderModel.deleteOrder(id);
+    return result;
+  }
+
+  // 주문 내역 주문상태 변경 관리자
+  async putStatus(id, status) {
+    const result = await this.orderModel.putStatus(id, status);
     return result;
   }
 }

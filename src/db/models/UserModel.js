@@ -19,7 +19,7 @@ class UserModel {
   }
   async editUser(userInfo) {
     const { userId, address, hashedPW } = userInfo;
-    await User.updateOne(
+    return await User.updateOne(
       { id: userId },
       { $set: { address: address, pw: hashedPW } }
     );

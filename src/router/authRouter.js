@@ -1,8 +1,9 @@
 const { Router } = require("express");
 const { userService } = require("../services");
 const transPorter = require("../config/email");
+const utils = require("../misc/utils");
 const router = Router();
-const { isAuthenticated } = require("../middlewares");
+const { isAuthenticated, asyncHandler } = require("../middlewares");
 
 router.post("/login", async (req, res, next) => {
   try {
@@ -40,6 +41,13 @@ router.post("/checkDupId", async (req, res, next) => {
     next(err);
   }
 });
+
+router.get("/:id", asyncHandler(async (req, res, next) => {
+  const id = req.params.id;
+  const user = await userService.getUserInfo(id);
+  res.json(utils.buildResponse(user));
+})
+);
 
 router.put("/logout", async (req, res, next) => {
   return res.clearCookie("loginToken").end();

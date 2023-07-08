@@ -24,6 +24,7 @@ const UserSchema = new Schema(
     },
     address: {
       type: String,
+      default: "",
     },
     role: {
       type: String,
@@ -47,6 +48,10 @@ const UserSchema = new Schema(
     },
     rank: {
       type: String,
+    },
+    isActivated: {
+      type: Boolean,
+      default: true,
     },
   },
   {

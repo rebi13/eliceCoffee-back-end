@@ -13,6 +13,21 @@ class UserModel {
   async create(user) {
     return await User.create(user);
   }
+  async resetPassword(userInfo) {
+    const { id, hashedRPW } = userInfo;
+    return await User.updateOne({ id: id }, { $set: { pw: hashedRPW } });
+  }
+  async editUser(userInfo) {
+    const { userId, address, hashedPW } = userInfo;
+    return await User.updateOne(
+      { id: userId },
+      { $set: { address: address, pw: hashedPW } }
+    );
+  }
+
+  async deleteUser(id) {
+    return await User.updateOne({ id: id }, { $set: { isActivated: false } });
+  }
 }
 
 module.exports = new UserModel();

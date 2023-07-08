@@ -64,4 +64,12 @@ router.delete("/orders/:id", asyncHandler( async (req, res, next) => {
 })
 );
 
+router.put("/orders/:id", asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  const order = await adminService.putStatus(id, status);
+  res.json(utils.buildResponse(order));
+})
+);
+
 module.exports = router;

@@ -4,12 +4,12 @@ module.exports = (req, res, next) => {
   try {
     const Token = req.cookies.loginToken.token;
     if (!Token || Token === "null") {
-      console.log("Token 없음.");
       res.json("로그인이 필요한 서비스입니다.");
       return;
     }
     const jwtDecoded = jwt.verify(Token, process.env.JWT_SECRET_KEY);
-    const userId = jwtDecoded.userId;
+    console.log(jwtDecoded)
+    const userId = jwtDecoded.id;
     req.userId = userId;
     next();
   } catch (error) {

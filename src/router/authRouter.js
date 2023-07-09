@@ -3,12 +3,11 @@ const { userService } = require("../services");
 const transPorter = require("../config/email");
 const utils = require("../misc/utils");
 const router = Router();
-const { isAuthenticated, asyncHandler } = require("../middlewares");
+const { isAuthenticated, asyncHandler, validator } = require("../middlewares");
 
-router.post("/login", async (req, res, next) => {
+router.post("/login", [validator.loginCheck, validator.validatorError], async (req, res, next) => {
   try {
-    const id = req.body.id;
-    const pw = req.body.pw;
+    const { id, pw } = req.body;
     const userToken = await userService.getUserToken({ id, pw });
     res.cookie("loginToken", userToken).send({ isLogin: true });
   } catch (err) {
@@ -16,7 +15,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.post("/register", async (req, res, next) => {
+router.post("/register", [validator.registerCheck, validator.validatorError], async (req, res, next) => {
   try {
     const { id, pw, name, email, phone } = req.body;
     const newUser = await userService.addUser({
@@ -32,7 +31,7 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
-router.post("/checkDupId", async (req, res, next) => {
+router.post("/checkDupId", [validator.idCheck, validator.validatorError], async (req, res, next) => {
   try {
     const { id } = req.body;
     const isDuplicate = await userService.duplicateTest(id);
@@ -53,7 +52,7 @@ router.put("/logout", async (req, res, next) => {
   return res.clearCookie("loginToken").end();
 });
 
-router.post("/search-id", async (req, res, next) => {
+router.post("/search-id", [validator.emailCheck, validator.validatorError], async (req, res, next) => {
   try {
     const { email } = req.body;
     const userId = await userService.findingId(email);
@@ -63,7 +62,7 @@ router.post("/search-id", async (req, res, next) => {
   }
 });
 
-router.patch("/reset-pw", async (req, res, next) => {
+router.patch("/reset-pw", [validator.resetpwCheck, validator.validatorError], async (req, res, next) => {
   const { id, email } = req.body;
   const resetPw = await userService.resetPW({ id, email });
   const mailOptions = {
@@ -82,20 +81,18 @@ router.patch("/reset-pw", async (req, res, next) => {
   });
 });
 
-router.put("/me", isAuthenticated, async (req, res, next) => {
-  try {
-    const { address, pw } = req.body;
-    const userId = req.userId;
-    const editUser = await userService.editUser({
-      userId,
-      address,
-      pw,
-    });
-    res.json(editUser);
-  } catch (err) {
-    next(err);
-  }
-});
+router.put("/me", isAuthenticated, [validator.meCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
+  const { address, pw } = req.body;
+  const userId = req.userId;
+  console.log(userId);
+  const editUser = await userService.editUser({
+    userId,
+    address,
+    pw,
+  });
+  res.json(editUser);
+}
+));
 
 router.put("/withdrawal", async (req, res, next) => {
   try {

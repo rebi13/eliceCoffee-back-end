@@ -60,8 +60,6 @@ router.post(
     const data = await orderService.postOrder({ id, items, itemTotal, userId, address, receiver, status });
 
     res.json(utils.buildResponse(data));
-
-    return data;
   })
 );
 

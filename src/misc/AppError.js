@@ -4,14 +4,13 @@
  * 참고: https://github.com/goldbergyoni/nodebestpractices/blob/master/sections/errorhandling/useonlythebuiltinerror.md#code-example--doing-it-even-better
  */
 class AppError extends Error {
-    constructor(name, httpCode, description) {
-      super(description);
-  
-      this.name = name;
-      this.httpCode = httpCode;
-      Error.captureStackTrace(this);
-    }
+  constructor(name, httpCode, description) {
+    super(description);
+
+    this.name = name;
+    this.httpCode = httpCode;
+    Error.captureStackTrace(this);
   }
-  
-  module.exports = AppError;
-  
+}
+
+module.exports = AppError;

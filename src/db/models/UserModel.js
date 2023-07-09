@@ -1,7 +1,7 @@
-const { model } = require("mongoose");
-const UserSchema = require("../schemas/UserSchema");
+const { model } = require('mongoose');
+const { UserSchema } = require('../schemas');
 
-const User = model("users", UserSchema);
+const User = model('users', UserSchema);
 
 class UserModel {
   async findById(id) {
@@ -19,10 +19,7 @@ class UserModel {
   }
   async editUser(userInfo) {
     const { userId, address, hashedPW } = userInfo;
-    return await User.updateOne(
-      { id: userId },
-      { $set: { address: address, pw: hashedPW } }
-    );
+    return await User.updateOne({ id: userId }, { $set: { address: address, pw: hashedPW } });
   }
 
   async deleteUser(id) {

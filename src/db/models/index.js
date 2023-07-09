@@ -1,4 +1,11 @@
-const mongoose = require("mongoose");
-const User = require("./UserModel");
+const userModel = require('./UserModel');
+const categoryModel = require('./CategoryModel');
+const orderModel = require('./OrderModel');
+const productModel = require('./ProductModel');
 
-module.exports = User;
+module.exports = {
+  userModel,
+  categoryModel,
+  orderModel,
+  productModel,
+};

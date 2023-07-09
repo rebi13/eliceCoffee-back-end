@@ -1,4 +1,4 @@
-const orderModel = require('../db/models/OrderModel');
+const { orderModel } = require('../db/models');
 
 class OrderService {
   constructor(orderModel) {

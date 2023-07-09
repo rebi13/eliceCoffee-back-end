@@ -1,8 +1,6 @@
-const productModel = require('../db/models/ProductModel');
-const orderModel = require('../db/models/OrderModel');
-const categoryModel = require('../db/models/CategoryModel');
-const bcyrpt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const { productModel } = require('../db/models');
+const { orderModel } = require('../db/models');
+const { categoryModel } = require('../db/models');
 
 class AdminService {
   constructor(productModel, orderModel, categoryModel) {

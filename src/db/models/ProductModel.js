@@ -1,7 +1,7 @@
-const { model } = require("mongoose");
-const ProductSchema = require("../schemas/ProductSchema");
+const { model } = require('mongoose');
+const { ProductSchema } = require('../schemas');
 
-const Product = model("products", ProductSchema);
+const Product = model('products', ProductSchema);
 
 class ProductModel {
   async create(product) {

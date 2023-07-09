@@ -30,7 +30,6 @@ router.get(
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const product = await adminService.getProduct(id);
-    console.log(product);
     res.json(utils.buildResponse(product));
   })
 );

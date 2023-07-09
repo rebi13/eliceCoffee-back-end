@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema } = require('mongoose');
 
 const UserSchema = new Schema(
   {
@@ -24,12 +24,12 @@ const UserSchema = new Schema(
     },
     address: {
       type: String,
-      default: "",
+      default: '',
     },
     role: {
       type: String,
-      enum: ["user", "admin"],
-      default: "user",
+      enum: ['user', 'admin'],
+      default: 'user',
     },
     profile: {
       type: String,
@@ -55,7 +55,7 @@ const UserSchema = new Schema(
     },
   },
   {
-    collection: "users",
+    collection: 'users',
   }
 );
 

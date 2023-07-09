@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema } = require('mongoose');
 const OrderSchema = new Schema({
   id: {
     type: String,
@@ -8,7 +8,7 @@ const OrderSchema = new Schema({
     type: Schema.Types.Array,
     items: {
       type: Schema.Types.ObjectId,
-      ref: "Product",
+      ref: 'Product',
     },
     // type: [Schema.Type.ObjectId],
     // ref: "Product",
@@ -32,12 +32,12 @@ const OrderSchema = new Schema({
   orderDate: {
     type: Date,
     required: true,
-    default: new Date()
+    default: new Date(),
   },
   status: {
     type: String,
     required: true,
-    default: "paid"
+    default: 'paid',
   },
 });
 

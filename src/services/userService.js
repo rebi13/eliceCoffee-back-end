@@ -18,7 +18,7 @@ class userService {
       throw new Error('PW를 확인해 주세요.');
     }
     if (!user.isActivated) {
-      throw new Error('탈퇴한 사용자입니다.');
+      throw new Error('사용할 수 없는 ID입니다.');
     }
     const role = user.role;
     const secretKey = process.env.JWT_SECRET_KEY;
@@ -31,7 +31,7 @@ class userService {
     const user = await userModel.findByEmail(email);
     if (user) {
       if (!user.isActivated) {
-        throw new Error('탈퇴한 사용자입니다.');
+        throw new Error('사용할 수 없는 ID입니다.');
       }
       throw new Error('이미 사용중인 이메일입니다.');
     }
@@ -46,7 +46,7 @@ class userService {
       throw new Error('이미 사용중인 아이디입니다.');
     }
     if (!user.isActivated) {
-      throw new Error('탈퇴한 사용자입니다.');
+      throw new Error('사용할 수 없는 ID입니다.');
     }
     return true;
   }
@@ -62,7 +62,7 @@ class userService {
       throw new Error('가입되지 않은 이메일입니다.');
     }
     if (!user.isActivated) {
-      throw new Error('탈퇴한 사용자입니다.');
+      throw new Error('사용할 수 없는 ID입니다.');
     }
     const userId = user.id;
     return { userId };
@@ -78,7 +78,7 @@ class userService {
       throw new Error('가입되지 않은 이메일입니다.');
     }
     if (!user.isActivated) {
-      throw new Error('탈퇴한 사용자입니다.');
+      throw new Error('사용할 수 없는 ID입니다.');
     }
     const randompw = randomPassword();
     const hashedRPW = await hashPassword(randompw);

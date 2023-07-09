@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 
 /* 유틸 함수들의 묶음 */
 // 데이터 클랜징용 함수, 특정 객체에서 값이 undefined인 key가 있으면 해당 key-value를 삭제한다.
@@ -23,7 +23,11 @@ function buildResponse(data, errorMessage) {
   };
 }
 
-hashPassword = (pw) => crypto.createHash('sha256').update(pw).digest('hex');
+hashPassword = async (pw) => {
+  const saltRounds = 10;
+  const salt = await bcrypt.genSalt(saltRounds);
+  return bcrypt.hash(pw, salt);
+}
 
 randomPassword = () => Math.random().toString(36).slice(2);
 module.exports = {

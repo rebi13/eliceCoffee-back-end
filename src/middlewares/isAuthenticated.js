@@ -4,7 +4,6 @@ module.exports = (req, res, next) => {
   try {
     const Token = req.cookies.loginToken.token;
     if (!Token || Token === "null") {
-      console.log("Token 없음.");
       res.json("로그인이 필요한 서비스입니다.");
       return;
     }

@@ -1,9 +1,9 @@
-const userMiddleware = require("./userMiddleware");
+const validator = require("./validator");
 const asyncHandler = require("./asyncHandler");
 const isAuthenticated = require("./isAuthenticated");
 
 module.exports = {
-  userMiddleware,
+  validator,
   asyncHandler,
   isAuthenticated,
 };

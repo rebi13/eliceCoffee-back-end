@@ -13,6 +13,9 @@ class ProductModel {
   async findOne(productId) {
     return await Product.findOne({ id: productId });
   }
+  async findByCategoryId(categoryId) {
+    return await Product.find({ categoryId });
+  }
   async updateOne(product) {
     return await Product.updateOne(product);
   }

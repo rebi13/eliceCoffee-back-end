@@ -7,26 +7,21 @@ const router = Router();
 router.get(
   '/',
   asyncHandler(async (req, res, next) => {
-    // const {"검색조건", "카테고리" 등}
-    try {
-      const products = await productService.getProducts();
-      res.json(utils.buildResponse(products));
-    } catch (err) {
-      next(err);
-    }
+    const categoryId = req.query.categoryId;
+    // 카테고리id가 존재하면 해당 id에 대한 항목만 검색. 아니면 전체 검색한다.
+    const products = categoryId
+      ? await productService.getProductsByCategoryId(categoryId)
+      : await productService.getProducts();
+    res.json(utils.buildResponse(products));
   })
 );
 
 router.get(
   '/:productId',
   asyncHandler(async (req, res, next) => {
-    try {
-      const productId = req.params.productId;
-      const product = await productService.getProduct(productId);
-      res.json(utils.buildResponse(product));
-    } catch (err) {
-      next(err);
-    }
+    const productId = req.params.productId;
+    const product = await productService.getProduct(productId);
+    res.json(utils.buildResponse(product));
   })
 );
 

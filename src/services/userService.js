@@ -1,6 +1,7 @@
-const userModel = require('../db/models');
+const { userModel } = require('../db/models');
 const jwt = require('jsonwebtoken');
 const { hashPassword, randomPassword } = require('../misc/utils');
+const bcrypt = require('bcrypt');
 
 class userService {
   constructor(userModel) {
@@ -12,7 +13,7 @@ class userService {
     if (!user) {
       throw new Error('가입되지 않은 ID입니다.');
     }
-    const isPasswordCorrect = user.pw === hashPassword(pw);
+    const isPasswordCorrect = bcrypt.compare(pw, user.pw);
     if (!isPasswordCorrect) {
       throw new Error('PW를 확인해 주세요.');
     }
@@ -34,9 +35,8 @@ class userService {
       }
       throw new Error('이미 사용중인 이메일입니다.');
     }
-    const hashedPW = hashPassword(pw);
-    const newUserInfo = { id, pw: hashedPW, name, email, phone };
-    const newUser = await this.userModel.create(newUserInfo);
+    const hashedPW = await hashPassword(pw);
+    const newUser = await this.userModel.create({ id, pw: hashedPW, name, email, phone });
     return newUser;
   }
 
@@ -81,14 +81,14 @@ class userService {
       throw new Error('탈퇴한 사용자입니다.');
     }
     const randompw = randomPassword();
-    const hashedRPW = hashPassword(randompw);
+    const hashedRPW = await hashPassword(randompw);
     await this.userModel.resetPassword({ id, hashedRPW });
     return randompw;
   }
 
   async editUser(userInfo) {
     const { userId, address, pw } = userInfo;
-    const hashedPW = hashPassword(pw);
+    const hashedPW = await hashPassword(pw);
     return await this.userModel.editUser({ userId, address, hashedPW });
   }
 

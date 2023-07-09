@@ -63,9 +63,6 @@ class AdminService {
   //카테고리 추가
   async addCategory(categoryInfo) {
     const { id, name } = categoryInfo;
-    if (!id || !name) {
-      throw new Error("필수 정보를 모두 입력해 주세요.");
-    }
     const category = await this.categoryModel.findById(id);
     if (category) {
       throw new Error("이미 존재하는 카테고리ID입니다.")
@@ -79,9 +76,6 @@ class AdminService {
   }
   //카테고리 조회
   async getCategory(id) {
-    if (!id) {
-      throw new Error("필수정보를 입력해주세요.");
-    }
     const category = await this.categoryModel.findById(id);
     if (!category) {
       throw new Error("존재하지 않는 카테고리입니다.");
@@ -92,9 +86,6 @@ class AdminService {
   //카테고리 수정
   async putCategory(categoryInfo) {
     const { id, name } = categoryInfo;
-    if (!id || !name) {
-      throw new Error("필수정보를 입력해주세요.");
-    }
     const category = await this.categoryModel.findById(id);
     if (!category) {
       throw new Error("존재하지 않는 카테고리입니다.");
@@ -105,9 +96,6 @@ class AdminService {
 
   //카테고리 삭제
   async deleteCategory(id) {
-    if (!id) {
-      throw new Error("필수정보를 입력해주세요");
-    }
     const category = await this.categoryModel.findById(id);
     if (!category) {
       throw new Error("존재하지 않는 카테고리입니다.");

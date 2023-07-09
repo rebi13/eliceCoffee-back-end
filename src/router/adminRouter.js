@@ -1,7 +1,8 @@
 const { Router } = require("express");
 const adminService = require("../services/adminService");
 const utils = require("../misc/utils");
-const { asyncHandler } = require("../middlewares");
+const { asyncHandler, validator } = require("../middlewares");
+const { emailCheck } = require("../middlewares/validator");
 const router = Router();
 
 // 상품 등록
@@ -65,21 +66,21 @@ router.delete("/orders/:id", asyncHandler(async (req, res, next) => {
 );
 
 // 카테고리 추가
-router.post('/categories', asyncHandler(async (req, res, next) => {
+router.post('/categories', [validator.idCheck, validator.nameCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
   const { id, name } = req.body;
   const newCategory = await adminService.addCategory({ id, name });
   res.json(utils.buildResponse(newCategory));
 }));
 
 //카테고리 조회
-router.get("/categories/:id", asyncHandler(async (req, res, next) => {
+router.get("/categories/:id", [validator.paramIdCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const category = await adminService.getCategory(id);
   res.json(utils.buildResponse(category))
 }));
 
 //카테고리 수정
-router.put("/categories/:id", asyncHandler(async (req, res, next) => {
+router.put("/categories/:id", [validator.paramIdCheck, validator.nameCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const { name } = req.body;
   const category = await adminService.putCategory({ id, name });
@@ -87,7 +88,7 @@ router.put("/categories/:id", asyncHandler(async (req, res, next) => {
 }))
 
 //카테고리 삭제
-router.delete('/categories/:id', asyncHandler(async (req, res, next) => {
+router.delete('/categories/:id', [validator.paramIdCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const category = await adminService.deleteCategory(id);
   res.json(utils.buildResponse(category))

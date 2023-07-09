@@ -8,7 +8,8 @@ module.exports = (req, res, next) => {
       return;
     }
     const jwtDecoded = jwt.verify(Token, process.env.JWT_SECRET_KEY);
-    const userId = jwtDecoded.userId;
+    console.log(jwtDecoded)
+    const userId = jwtDecoded.id;
     req.userId = userId;
     next();
   } catch (error) {

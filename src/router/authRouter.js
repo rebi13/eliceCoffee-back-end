@@ -81,20 +81,18 @@ router.patch("/reset-pw", [validator.resetpwCheck, validator.validatorError], as
   });
 });
 
-router.put("/me", isAuthenticated, [validator.meCheck, validator.validatorError], async (req, res, next) => {
-  try {
-    const { address, pw } = req.body;
-    const userId = req.userId;
-    const editUser = await userService.editUser({
-      userId,
-      address,
-      pw,
-    });
-    res.json(editUser);
-  } catch (err) {
-    next(err);
-  }
-});
+router.put("/me", isAuthenticated, [validator.meCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
+  const { address, pw } = req.body;
+  const userId = req.userId;
+  console.log(userId);
+  const editUser = await userService.editUser({
+    userId,
+    address,
+    pw,
+  });
+  res.json(editUser);
+}
+));
 
 router.put("/withdrawal", async (req, res, next) => {
   try {

@@ -1,8 +1,8 @@
-const productModel = require("../db/models/ProductModel");
-const orderModel = require("../db/models/OrderModel");
-const categoryModel = require("../db/models/CategoryModel");
-const bcyrpt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const productModel = require('../db/models/ProductModel');
+const orderModel = require('../db/models/OrderModel');
+const categoryModel = require('../db/models/CategoryModel');
+const bcyrpt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 class AdminService {
   constructor(productModel, orderModel, categoryModel) {
@@ -15,7 +15,7 @@ class AdminService {
   async addProduct(product) {
     const { id, name, categoryId, price, subImage, keyWord, description, mainImage } = product;
     if (!id || !name || !categoryId || !price || !subImage || !keyWord || !description || !mainImage) {
-      throw new Error("필수 정보를 모두 입력해주세요.");
+      throw new Error('필수 정보를 모두 입력해주세요.');
     }
     const result = await this.productModel.create(product);
     return result;
@@ -31,7 +31,7 @@ class AdminService {
   async putProduct(product) {
     const { id, name, categoryId, price, subImage, keyWord, description, mainImage } = product;
     if (!id || !name || !categoryId || !price || !subImage || !keyWord || !description || !mainImage) {
-      throw new Error("필수 정보를 모두 입력해주세요.");
+      throw new Error('필수 정보를 모두 입력해주세요.');
     }
     const result = await this.productModel.update(product);
     return result;
@@ -45,13 +45,13 @@ class AdminService {
 
   // 주문 내역 전체 조회 관리자
   async getOrders() {
-    const orders = await this.orderModel.getOrders();
+    const orders = await this.orderModel.findOrders();
     return orders;
   }
 
   // 주문 내역 특정 사용자 조회 관리자
   async getOrder(id) {
-    const order = await this.orderModel.getOrder(id);
+    const order = await this.orderModel.findOrder(id);
     return order;
   }
 
@@ -65,11 +65,11 @@ class AdminService {
     const { id, name } = categoryInfo;
     const category = await this.categoryModel.findById(id);
     if (category) {
-      throw new Error("이미 존재하는 카테고리ID입니다.")
+      throw new Error('이미 존재하는 카테고리ID입니다.');
     }
     const category2 = await this.categoryModel.findByName(name);
     if (category2) {
-      throw new Error("이미 존재하는 카테고리 이름입니다.")
+      throw new Error('이미 존재하는 카테고리 이름입니다.');
     }
     const result = await this.categoryModel.create({ id, name });
     return result;
@@ -78,7 +78,7 @@ class AdminService {
   async getCategory(id) {
     const category = await this.categoryModel.findById(id);
     if (!category) {
-      throw new Error("존재하지 않는 카테고리입니다.");
+      throw new Error('존재하지 않는 카테고리입니다.');
     }
     const result = await this.categoryModel.findById(id);
     return result;
@@ -88,7 +88,7 @@ class AdminService {
     const { id, name } = categoryInfo;
     const category = await this.categoryModel.findById(id);
     if (!category) {
-      throw new Error("존재하지 않는 카테고리입니다.");
+      throw new Error('존재하지 않는 카테고리입니다.');
     }
     const result = await this.categoryModel.update(categoryInfo);
     return result;
@@ -98,7 +98,7 @@ class AdminService {
   async deleteCategory(id) {
     const category = await this.categoryModel.findById(id);
     if (!category) {
-      throw new Error("존재하지 않는 카테고리입니다.");
+      throw new Error('존재하지 않는 카테고리입니다.');
     }
     const result = await this.categoryModel.deleteCategory(id);
     return result;
@@ -106,9 +106,13 @@ class AdminService {
 
   // 주문 내역 주문상태 변경 관리자
   async putStatus(id, status) {
-    const result = await this.orderModel.putStatus(id, status);
+    const result = await this.orderModel.updateStatus(id, status);
     return result;
   }
+  // async putStatus(id, status) {
+  //   const result = await this.orderModel.putStatus(id, status);
+  //   return result;
+  // }
 }
 
 module.exports = new AdminService(productModel, orderModel, categoryModel);

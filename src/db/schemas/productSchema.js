@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema } = require('mongoose');
 const ProductSchema = new Schema({
   id: {
     type: String,
@@ -9,9 +9,10 @@ const ProductSchema = new Schema({
     required: true,
   },
   categoryId: {
-    type: Schema.Types.ObjectId,
+    type: String,
+    // type: Schema.Types.ObjectId,
     required: true,
-    ref: "category",
+    // ref: "category",
   },
   price: {
     type: Number,
@@ -35,5 +36,4 @@ const ProductSchema = new Schema({
   option: String,
 });
 
-module.exports = ProductSchema ;
- 
+module.exports = ProductSchema;

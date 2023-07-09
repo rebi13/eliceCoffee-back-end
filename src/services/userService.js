@@ -8,9 +8,6 @@ class userService {
   }
   async getUserToken(userInfo) {
     const { id, pw } = userInfo;
-    if (!id || !pw) {
-      throw new Error("ID 혹은 PW를 확인해 주세요.");
-    }
     const user = await this.userModel.findById(id);
     if (!user) {
       throw new Error("가입되지 않은 ID입니다.");
@@ -32,9 +29,6 @@ class userService {
 
   async addUser(userInfo) {
     const { id, pw, name, email, phone } = userInfo;
-    if (!id || !pw || !name || !email || !phone) {
-      throw new Error("필수 정보를 모두 입력해주세요.");
-    }
     const user = await userModel.findByEmail(email);
     if (user) {
       if (!user.isActivated) {
@@ -43,7 +37,7 @@ class userService {
       throw new Error("이미 사용중인 이메일입니다.");
     }
     const hashedPW = hashPassword(pw);
-    const newUserInfo = { id, hashedPW, name, email, phone };
+    const newUserInfo = { id, pw: hashedPW, name, email, phone };
     const newUser = await this.userModel.create(newUserInfo);
     return newUser;
   }

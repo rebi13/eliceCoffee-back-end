@@ -29,7 +29,44 @@ hashPassword = async (pw) => {
   return bcrypt.hash(pw, salt);
 }
 
-randomPassword = () => Math.random().toString(36).slice(2);
+function getRandomUpperCase() {
+  return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+}
+
+function getRandomLowerCase() {
+  return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+}
+
+function getRandomNumber() {
+  return String.fromCharCode(Math.floor(Math.random() * 10) + 48);
+}
+
+function getRandomSymbol() {
+  const symbol = '@$!%*#?&';
+  return symbol[Math.floor(Math.random() * symbol.length)];
+}
+
+const randomFunc = [getRandomUpperCase, getRandomLowerCase, getRandomNumber, getRandomSymbol];
+
+function getRandomFunc() {
+  return randomFunc[Math.floor(Math.random() * Object.keys(randomFunc).length)];
+}
+
+function randomPassword() {
+  let password = '';
+  const passwordLength = Math.random() * (12 - 8) + 8;
+  for (let i = 1; i <= passwordLength; i++) {
+    password += getRandomFunc()();
+  }
+  //check with regex
+  const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
+  if (!password.match(regex)) {
+    password = randomPassword();
+  }
+  return password;
+}
+
+
 module.exports = {
   sanitizeObject,
   buildResponse,

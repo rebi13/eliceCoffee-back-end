@@ -82,8 +82,7 @@ class userService {
     }
     const randompw = randomPassword();
     const hashedRPW = await hashPassword(randompw);
-    await this.userModel.resetPassword({ id, hashedRPW });
-    return randompw;
+    return await this.userModel.resetPassword({ id, hashedRPW });
   }
 
   async editUser(userInfo) {

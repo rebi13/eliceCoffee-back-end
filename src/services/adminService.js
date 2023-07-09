@@ -3,7 +3,6 @@ const orderModel = require("../db/models/OrderModel");
 const categoryModel = require("../db/models/CategoryModel");
 const bcyrpt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { hashPassword } = require("../middlewares");
 
 class AdminService {
   constructor(productModel, orderModel, categoryModel) {
@@ -116,7 +115,7 @@ class AdminService {
     const result = await this.categoryModel.deleteCategory(id);
     return result;
   }
-  
+
   // 주문 내역 주문상태 변경 관리자
   async putStatus(id, status) {
     const result = await this.orderModel.putStatus(id, status);

@@ -1,9 +1,6 @@
 const userModel = require("../db/models");
-const bcyrpt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { hashPassword } = require("../middlewares");
-const { randomPassword } = require("../middlewares");
-require("dotenv").config();
+const { hashPassword, randomPassword } = require("../misc/utils");
 
 class userService {
   constructor(userModel) {

@@ -19,8 +19,8 @@ class OrderService {
     return order;
   }
 
-  async putOrder(orderId, param) {
-    return await this.orderModel.putOrder(orderId, param);
+  async putOrder(orderId, { address, receiver }) {
+    return await this.orderModel.updateOrder(orderId, { address, receiver });
   }
   // 주문 내역 주문상태 변경 사용자
   async putStatus(id, status) {

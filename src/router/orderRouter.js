@@ -37,7 +37,7 @@ router.put(
       let data;
       if (isOrderCancel) {
         // 주문 취소
-        data = await orderService.putOrder(orderId, { status: 'pending' });
+        data = await orderService.putStatus(orderId, { status: 'pending' });
       } else {
         // 배송지 변경
         data = await orderService.putOrder(orderId, { address, receiver });

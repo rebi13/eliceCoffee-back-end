@@ -21,27 +21,25 @@ const addressCheck = body("address", "Address 유효성 검증 오류").notEmpty
 const paramIdCheck = param("id", "ID 유효성 검증 오류").notEmpty();
 
 const loginCheck = [
-    idCheck,
-    passwordCheck
+  idCheck,
+  passwordCheck
 ];
 
 const registerCheck = [
-    idCheck,
-    passwordCheck,
-    nameCheck,
-    emailCheck,
-    phoneCheck
+  idCheck,
+  passwordCheck,
+  nameCheck,
+  emailCheck,
+  phoneCheck
 ];
-const emailCheck = [body('email', 'Email 유효성 검증 오류').notEmpty().isEmail()];
-
 const resetpwCheck = [
-    idCheck,
-    emailCheck
+  idCheck,
+  emailCheck
 ];
 
 const meCheck = [
-    addressCheck,
-    passwordCheck
+  addressCheck,
+  passwordCheck
 ];
 
 
@@ -56,13 +54,13 @@ const validatorError = (req, res, next) => {
 
 
 module.exports = {
-    loginCheck,
-    registerCheck,
-    idCheck,
-    nameCheck,
-    emailCheck,
-    resetpwCheck,
-    meCheck,
-    paramIdCheck,
-    validatorError
+  loginCheck,
+  registerCheck,
+  idCheck,
+  nameCheck,
+  emailCheck,
+  resetpwCheck,
+  meCheck,
+  paramIdCheck,
+  validatorError
 }

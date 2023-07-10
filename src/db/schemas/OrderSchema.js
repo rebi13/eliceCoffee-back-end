@@ -29,16 +29,15 @@ const OrderSchema = new Schema({
     type: String,
     required: true,
   },
-  orderDate: {
-    type: Date,
-    required: true,
-    default: new Date(),
-  },
   status: {
     type: String,
     required: true,
     default: 'paid',
   },
-});
+},
+  {
+    timestamps: { currentTime: () => new Date(new Date().getTime() + 1000 * 60 * 60 * 9) }
+  }
+);
 
 module.exports = OrderSchema;

@@ -7,9 +7,9 @@ module.exports = (req, res, next) => {
       res.json('로그인이 필요한 서비스입니다.');
       return;
     }
-    const jwtDecoded = jwt.verify(Token, process.env.JWT_SECRET_KEY);
-    const userId = jwtDecoded.id;
-    req.userId = userId;
+    jwt.verify(Token, process.env.JWT_SECRET_KEY, (err, decoded) => {
+      req.userId = decoded.id;
+    });
     next();
   } catch (error) {
     res.json('정상적인 토큰이 아닙니다.');

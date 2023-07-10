@@ -59,7 +59,7 @@ class AdminService {
     return result;
   }
   //카테고리 추가
-  async addCategory(categoryInfo) {
+  async postCategory(categoryInfo) {
     const { id, name } = categoryInfo;
     const category = await this.categoryModel.findById(id);
     if (category) {

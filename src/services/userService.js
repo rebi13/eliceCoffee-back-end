@@ -26,7 +26,7 @@ class userService {
     return { token };
   }
 
-  async addUser(userInfo) {
+  async postUser(userInfo) {
     const { id, pw, name, email, phone } = userInfo;
     const user = await userModel.findByEmail(email);
     if (user) {
@@ -56,7 +56,7 @@ class userService {
     return user;
   }
 
-  async findingId(email) {
+  async getId(email) {
     const user = await userModel.findByEmail(email);
     if (!user) {
       throw new Error('가입되지 않은 이메일입니다.');
@@ -68,7 +68,7 @@ class userService {
     return { userId };
   }
 
-  async resetPW(userInfo) {
+  async postPW(userInfo) {
     const { id, email } = userInfo;
     const user = await userModel.findById(id);
     if (!user) {
@@ -82,13 +82,13 @@ class userService {
     }
     const randompw = randomPassword();
     const hashedRPW = await hashPassword(randompw);
-    return await this.userModel.resetPassword({ id, hashedRPW });
+    return await this.userModel.updatePassword({ id, hashedRPW });
   }
 
   async editUser(userInfo) {
     const { userId, address, pw } = userInfo;
     const hashedPW = await hashPassword(pw);
-    return await this.userModel.editUser({ userId, address, hashedPW });
+    return await this.userModel.updateUser({ userId, address, hashedPW });
   }
 
   async deleteUser(userToken) {

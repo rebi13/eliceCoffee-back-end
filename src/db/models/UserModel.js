@@ -13,11 +13,11 @@ class UserModel {
   async create(user) {
     return (await User.create(user)).toObject();
   }
-  async resetPassword(userInfo) {
+  async updatePassword(userInfo) {
     const { id, hashedRPW } = userInfo;
     return await User.updateOne({ id: id }, { $set: { pw: hashedRPW } });
   }
-  async editUser(userInfo) {
+  async updateUser(userInfo) {
     const { userId, address, hashedPW } = userInfo;
     return await User.updateOne({ id: userId }, { $set: { address: address, pw: hashedPW } });
   }

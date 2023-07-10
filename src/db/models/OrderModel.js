@@ -14,23 +14,10 @@ class OrderModel {
     return await Order.updateOne(id, { address, receiver });
   }
 
-  // 주문 상태를 변경한다.
+  // 주문 상태를 변경한다. (관리자, 사용자 = status: "paid")
   async updateStatus(id, status) {
     return await Order.updateOne(id, { $set: status });
   }
-
-  // 주문id에 대하여 정보를 취소한다. (상태를 취소대기중으로 변경한다)
-  // async cancelOrder(orderId, status) {
-  //   return await Order.updateOne(orderId, { status });
-  // }
-  // 주문 상태를 변경한다. (관리자)
-  // async putStatus(id, status) {
-  //   return await Order.updateOne({ id }, { status });
-  // }
-  // 주문 정보를 수정한다 (주문 취소 or 배송지 변경)
-  // async putOrder(orderId, param) {
-  //   return await Order.updateOne({ id: orderId }, { $set: param });
-  // }
 
   // 주문 정보를 저장한다.
   async createOrder(orderInfo) {
@@ -51,6 +38,7 @@ class OrderModel {
     return await Order.find({ userId: id });
   }
 
+  // 특정 주문에 대한 내역을 조회한다. (사용자)
   async findOrder(userId, id) {
     return await Order.find({ userId, id });
   }

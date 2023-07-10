@@ -10,7 +10,7 @@ class AdminService {
   }
 
   // 상품 등록 관리자
-  async addProduct(product) {
+  async postProduct(product) {
     const { id, name, categoryId, price, subImage, keyWord, description, mainImage } = product;
     if (!id || !name || !categoryId || !price || !subImage || !keyWord || !description || !mainImage) {
       throw new Error('필수 정보를 모두 입력해주세요.');

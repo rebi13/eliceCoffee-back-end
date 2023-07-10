@@ -5,13 +5,13 @@ const User = model('users', UserSchema);
 
 class UserModel {
   async findById(id) {
-    return await User.findOne({ id });
+    return await User.findOne({ id }).lean();
   }
   async findByEmail(email) {
-    return await User.findOne({ email });
+    return await User.findOne({ email }).lean();
   }
   async create(user) {
-    return await User.create(user);
+    return (await User.create(user)).toObject();
   }
   async resetPassword(userInfo) {
     const { id, hashedRPW } = userInfo;

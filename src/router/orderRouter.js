@@ -53,7 +53,6 @@ router.post(
   isAuthenticated,
   asyncHandler(async (req, res, next) => {
     const { id, items, itemTotal, userId, address, receiver, receiverPhone, status } = req.body;
-
     if (!id || !items || !itemTotal || !userId || !address || !receiver || !receiverPhone || !status) {
       throw new Error('필수 정보를 모두 입력해주세요.');
     }
@@ -67,7 +66,6 @@ router.post(
       receiverPhone,
       status,
     });
-
     res.json(utils.buildResponse(data));
   })
 );

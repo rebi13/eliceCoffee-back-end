@@ -7,7 +7,7 @@ const { isAuthenticated, asyncHandler, validator } = require('../middlewares');
 
 
 // 관리자 계정 생성하기
-// router.post('/register-admin', asyncHandler(async (req, res, next) => {
+// router.post('/register-admin', [validator.loginCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
 //   const { id, pw, name, email, phone } = req.body;
 //   const newAdmin = await userService.postAdmin({
 //     id, pw, name, email, phone
@@ -121,5 +121,20 @@ router.put(
     res.json(buildResponse(deleteUser));
   })
 );
+
+router.put('/updateTotal', asyncHandler(async (req, res, next) => {
+  const id = req.body.id;
+  const price = Number(req.body.price);
+  const updateTotal = await userService.putTotal({
+    id, price
+  });
+  res.json(buildResponse(updateTotal));
+}))
+
+router.put('/updateRank', asyncHandler(async (req, res, next) => {
+  const { id } = req.body;
+  const updateRank = await userService.putRank(id);
+  res.json(buildResponse(updateRank));
+}))
 
 module.exports = router;

@@ -96,6 +96,15 @@ class userService {
     return await this.userModel.deleteUser(userId);
   }
 
+  async putTotal(info) {
+    return await this.userModel.updateTotal(info);
+  }
+
+  async putRank(id) {
+    return await this.userModel.updateRank(id);
+  }
+
+  // 관리자 계정 생성
   // async postAdmin(userInfo) {
   //   const { id, pw, name, email, phone } = userInfo;
   //   const user = await userModel.findByEmail(email);

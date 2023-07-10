@@ -85,7 +85,7 @@ class userService {
     return await this.userModel.updatePassword({ id, hashedRPW });
   }
 
-  async editUser(userInfo) {
+  async putUser(userInfo) {
     const { userId, address, pw } = userInfo;
     const hashedPW = await hashPassword(pw);
     return await this.userModel.updateUser({ userId, address, hashedPW });
@@ -95,6 +95,20 @@ class userService {
     const userId = jwt.verify(userToken, process.env.JWT_SECRET_KEY).id;
     return await this.userModel.deleteUser(userId);
   }
+
+  // async postAdmin(userInfo) {
+  //   const { id, pw, name, email, phone } = userInfo;
+  //   const user = await userModel.findByEmail(email);
+  //   if (user) {
+  //     if (!user.isActivated) {
+  //       throw new Error('사용할 수 없는 ID입니다.');
+  //     }
+  //     throw new Error('이미 사용중인 이메일입니다.');
+  //   }
+  //   const hashedPW = await hashPassword(pw);
+  //   const newUser = await this.userModel.create({ id, pw: hashedPW, name, email, phone, role: "admin" });
+  //   return newUser;
+  // }
 }
 
 module.exports = new userService(userModel);

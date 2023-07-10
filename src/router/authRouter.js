@@ -25,7 +25,7 @@ router.post("/register", [validator.registerCheck, validator.validatorError], as
 
 router.post("/checkDupId", [validator.idCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
   const { id } = req.body;
-  const isDuplicate = await userService.duplicateTest(id);
+  const isDuplicate = await userService.isDuplicated(id);
   res.json(buildResponse(isDuplicate));
 }));
 

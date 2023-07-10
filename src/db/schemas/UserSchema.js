@@ -34,10 +34,6 @@ const UserSchema = new Schema(
     profile: {
       type: String,
     },
-    createDate: {
-      type: Date,
-      default: new Date(),
-    },
     wishList: {
       type: Array,
       default: [],
@@ -56,6 +52,7 @@ const UserSchema = new Schema(
   },
   {
     collection: 'users',
+    timestamps: { currentTime: () => new Date(new Date().getTime() + 1000 * 60 * 60 * 9) }
   }
 );
 

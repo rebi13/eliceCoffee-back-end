@@ -18,8 +18,8 @@ class OrderService {
   }
 
   // 주문 내역 변경 사용자
-  async putOrder(orderId, { address, receiver }) {
-    return await this.orderModel.updateOrder(orderId, { address, receiver });
+  async putOrder(orderId, { address, receiver, receiverPhone }) {
+    return await this.orderModel.updateOrder(orderId, { address, receiver, receiverPhone });
   }
 
   // 주문 내역 주문상태 변경 사용자

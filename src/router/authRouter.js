@@ -5,6 +5,16 @@ const { buildResponse } = require('../misc/utils');
 const router = Router();
 const { isAuthenticated, asyncHandler, validator } = require('../middlewares');
 
+
+// 관리자 계정 생성하기
+// router.post('/register-admin', asyncHandler(async (req, res, next) => {
+//   const { id, pw, name, email, phone } = req.body;
+//   const newAdmin = await userService.postAdmin({
+//     id, pw, name, email, phone
+//   });
+//   res.json(buildResponse(newAdmin));
+// }))
+
 router.post(
   '/login',
   [validator.loginCheck, validator.validatorError],
@@ -94,7 +104,7 @@ router.put(
   asyncHandler(async (req, res, next) => {
     const { address, pw } = req.body;
     const userId = req.userId;
-    const editUser = await userService.postUser({
+    const editUser = await userService.putUser({
       userId,
       address,
       pw,

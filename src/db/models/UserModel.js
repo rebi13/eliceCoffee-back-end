@@ -21,7 +21,6 @@ class UserModel {
     const { userId, address, hashedPW } = userInfo;
     return await User.updateOne({ id: userId }, { $set: { address: address, pw: hashedPW } });
   }
-
   async deleteUser(id) {
     return await User.updateOne({ id: id }, { $set: { isActivated: false } });
   }

@@ -8,6 +8,7 @@ class ProductModel {
     return await Product.create(product);
   }
   async find() {
+    console.log('find');
     return await Product.find();
   }
   async findOne(productId) {

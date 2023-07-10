@@ -1,7 +1,7 @@
-const productModel = require('../db/models');
+const { productModel } = require('../db/models');
 
-class productService {
-  constructor(userModel) {
+class ProductService {
+  constructor(productModel) {
     this.productModel = productModel;
   }
   // 특정 id를 갖는 하나의 게시글을 가져오는 메소드
@@ -11,7 +11,6 @@ class productService {
   }
   // 특정 조건(title과 author)에 맞는 여러 개의 게시글을 가져오는 메소드
   async getProducts() {
-    // { title, author }
     const products = await this.productModel.find();
     return products;
   }
@@ -22,4 +21,4 @@ class productService {
   }
 }
 
-module.exports = new productService(productModel);
+module.exports = new ProductService(productModel);

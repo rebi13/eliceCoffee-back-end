@@ -41,10 +41,20 @@ router.post(
   })
 );
 
+// router.get(
+//   '/:id',
+//   asyncHandler(async (req, res, next) => {
+//     const id = req.params.id;
+//     const user = await userService.getUserInfo(id);
+//     res.json(buildResponse(user));
+//   })
+// );
+
 router.get(
-  '/:id',
+  '/',
+  isAuthenticated,
   asyncHandler(async (req, res, next) => {
-    const id = req.params.id;
+    const id = req.userId;
     const user = await userService.getUserInfo(id);
     res.json(buildResponse(user));
   })

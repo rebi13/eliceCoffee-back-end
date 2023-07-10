@@ -13,6 +13,9 @@ class userService {
     if (!user) {
       throw new Error('가입되지 않은 ID입니다.');
     }
+    if (!user.isActivated) {
+      throw new Error('사용할 수 없는 ID입니다.');
+    }
     const isPasswordCorrect = bcrypt.compareSync(pw, user.pw);
     if (!isPasswordCorrect) {
       throw new Error('PW를 확인해 주세요.');

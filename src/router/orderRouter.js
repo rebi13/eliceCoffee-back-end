@@ -34,14 +34,14 @@ router.put(
   asyncHandler(async (req, res, next) => {
     // id 이중검증 필요..?
     const { orderId } = req.params;
-    const { address, isOrderCancel } = req.body;
+    const { address, receiver, receiverPhone, isOrderCancel } = req.body;
     let data;
     if (isOrderCancel) {
       // 주문 취소
       data = await orderService.putStatus(orderId, { status: 'pending' });
     } else {
       // 배송지 변경
-      data = await orderService.putOrder(orderId, { address, receiver });
+      data = await orderService.putOrder(orderId, { address, receiver, receiverPhone });
     }
     res.json(utils.buildResponse(data));
   })
@@ -52,12 +52,21 @@ router.post(
   '/',
   isAuthenticated,
   asyncHandler(async (req, res, next) => {
-    const { id, items, itemTotal, userId, address, receiver, status } = req.body;
+    const { id, items, itemTotal, userId, address, receiver, receiverPhone, status } = req.body;
 
-    if (!id || !items || !itemTotal || !userId || !address || !receiver || !status) {
+    if (!id || !items || !itemTotal || !userId || !address || !receiver || !receiverPhone || !status) {
       throw new Error('필수 정보를 모두 입력해주세요.');
     }
-    const data = await orderService.postOrder({ id, items, itemTotal, userId, address, receiver, status });
+    const data = await orderService.postOrder({
+      id,
+      items,
+      itemTotal,
+      userId,
+      address,
+      receiver,
+      receiverPhone,
+      status,
+    });
 
     res.json(utils.buildResponse(data));
   })

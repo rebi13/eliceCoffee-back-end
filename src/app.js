@@ -16,7 +16,7 @@ const create = async () => {
   app.use(cors({
     credentials: true,
     //origin: `http://${config.location}:${config.port}`,
-    origin: 'kdt-sw-5-team03.elicecoding.com'
+    origin: 'http://localhost:8080'
   }));
 
   // Content-Type: application/json 형태의 데이터를 인식하고 핸들링할 수 있게 함

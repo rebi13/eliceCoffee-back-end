@@ -52,19 +52,18 @@ router.post(
   '/',
   isAuthenticated,
   asyncHandler(async (req, res, next) => {
-    const { id, items, itemTotal, userId, address, receiver, receiverPhone, status } = req.body;
-    if (!id || !items || !itemTotal || !userId || !address || !receiver || !receiverPhone || !status) {
+    const { items, itemTotal, userId, address, receiver, receiverPhone } = req.body;
+    if (!items || !itemTotal || !userId || !address || !receiver || !receiverPhone) {
       throw new Error('필수 정보를 모두 입력해주세요.');
     }
     const data = await orderService.postOrder({
-      id,
       items,
       itemTotal,
       userId,
       address,
       receiver,
       receiverPhone,
-      status,
+      status : "paid",
     });
     res.json(utils.buildResponse(data));
   })

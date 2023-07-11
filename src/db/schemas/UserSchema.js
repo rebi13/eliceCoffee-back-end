@@ -44,8 +44,8 @@ const UserSchema = new Schema(
     },
     rank: {
       type: String,
-      enum: ['Bronze', 'Silver', 'Gold'],
-      default: 'Bronze'
+      enum: ['bronze', 'silver', 'gold'],
+      default: 'bronze'
     },
     isActivated: {
       type: Boolean,

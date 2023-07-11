@@ -7,13 +7,13 @@ class OrderService {
 
   // 주문 내역 전체 조회 사용자
   async getOrders(userId) {
-    const orders = await this.orderModel.findOrders(userId);
+    const orders = await this.orderModel.findOrdersByUserId(userId);
     return orders;
   }
 
   // 주문 내역 특정 내역 조회 사용자
   async getOrder(userId, id) {
-    const order = await this.orderModel.findOrder(userId, id);
+    const order = await this.orderModel.findOrderById(userId, id);
     return order;
   }
 

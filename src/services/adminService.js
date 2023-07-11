@@ -49,7 +49,7 @@ class AdminService {
 
   // 주문 내역 특정 사용자 조회 관리자
   async getOrder(id) {
-    const order = await this.orderModel.findOrder(id);
+    const order = await this.orderModel.findOrdersByUserId(id);
     return order;
   }
 

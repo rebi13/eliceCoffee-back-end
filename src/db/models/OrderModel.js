@@ -29,17 +29,17 @@ class OrderModel {
     return await Order.find({});
   }
   // 주문 내역을 전체 조회한다. (사용자)
-  async findOrders(userId) {
+  async findOrdersByUserId(userId) {
     return await Order.find({ userId });
   }
 
   // 특정 사용자의 주문 내역을 조회한다. (관리자)
-  async findOrder(id) {
+  async findOrderByUserId(id) {
     return await Order.find({ userId: id });
   }
 
   // 특정 주문에 대한 내역을 조회한다. (사용자)
-  async findOrder(userId, id) {
+  async findOrderById(userId, id) {
     return await Order.find({ userId, id });
   }
 

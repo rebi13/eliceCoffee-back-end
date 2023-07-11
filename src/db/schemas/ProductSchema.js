@@ -33,6 +33,9 @@ const ProductSchema = new Schema({
     required: true,
   },
   subImage: [String],
+  quantity: {
+    type: Number,
+  },
   option: String,
 },
   {

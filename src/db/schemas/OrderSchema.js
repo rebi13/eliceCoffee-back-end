@@ -3,7 +3,7 @@ const OrderSchema = new Schema(
   {
     id: {
       type: String,
-      required: true,
+      required: false,
     },
     items: {
       type: Schema.Types.Array,

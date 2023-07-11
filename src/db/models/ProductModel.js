@@ -8,7 +8,6 @@ class ProductModel {
     return await Product.create(product);
   }
   async find() {
-    console.log('find');
     return await Product.find();
   }
   async findOne(productId) {
@@ -22,6 +21,10 @@ class ProductModel {
   }
   async deleteOne(productId) {
     return await Product.deleteOne({ id: productId });
+  }
+  async findSix() {
+    const products = (await Product.find().sort({ "createdAt": -1 })).slice(0, 6);
+    return products;
   }
 }
 

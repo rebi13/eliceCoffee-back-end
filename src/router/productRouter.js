@@ -16,6 +16,11 @@ router.get(
   })
 );
 
+router.get('/main', asyncHandler(async (req, res, next) => {
+  const products = await productService.getSixProducts();
+  res.json(utils.buildResponse(products));
+}));
+
 router.get(
   '/:productId',
   asyncHandler(async (req, res, next) => {
@@ -24,5 +29,6 @@ router.get(
     res.json(utils.buildResponse(product));
   })
 );
+
 
 module.exports = router;

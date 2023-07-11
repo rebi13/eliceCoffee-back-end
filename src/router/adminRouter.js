@@ -95,7 +95,6 @@ router.delete(
 // 카테고리 추가
 router.post(
   '/categories',
-  [validator.idCheck, validator.nameCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id, name } = req.body;
     const newCategory = await adminService.postCategory({ id, name });

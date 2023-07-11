@@ -15,7 +15,7 @@ const create = async () => {
   // CORS 에러 방지
   app.use(cors({
     credentials: true,
-    origin: 'http://localhost:8080',
+    origin: `http://${config.location}:${config.port}`,
   }));
 
   // Content-Type: application/json 형태의 데이터를 인식하고 핸들링할 수 있게 함

@@ -47,7 +47,11 @@ const validatorError = (req, res, next) => {
   const errors = validationResult(req).errors;
   if (Object.keys(errors).length !== 0) {
     let messages = errors.map((e) => e.msg);
-    throw new Error(messages);
+    res.status(400).json({
+      result: "Validation Error",
+      reason: messages
+    })
+    return;
   }
   next();
 };

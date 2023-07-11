@@ -5,17 +5,16 @@ const Product = model('products', ProductSchema);
 
 class ProductModel {
   async create(product) {
-    return await Product.create(product);
+    return await Product.create(product).toObject();
   }
   async find() {
-    console.log('find');
-    return await Product.find();
+    return await Product.find().lean();
   }
   async findOne(productId) {
-    return await Product.findOne({ id: productId });
+    return await Product.findOne({ id: productId }).lean();
   }
   async findByCategoryId(categoryId) {
-    return await Product.find({ categoryId });
+    return await Product.find({ categoryId }).lean();
   }
   async updateOne(product) {
     return await Product.updateOne(product);

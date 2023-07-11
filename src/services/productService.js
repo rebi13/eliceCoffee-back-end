@@ -19,6 +19,11 @@ class ProductService {
     const products = await this.productModel.findByCategoryId(categoryId);
     return products;
   }
+  // 상품 6개 리턴
+  async getSixProducts() {
+    const products = await this.productModel.findSix();
+    return products;
+  }
 }
 
 module.exports = new ProductService(productModel);

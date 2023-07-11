@@ -21,9 +21,26 @@ class UserModel {
     const { userId, address, hashedPW } = userInfo;
     return await User.updateOne({ id: userId }, { $set: { address: address, pw: hashedPW } });
   }
-
   async deleteUser(id) {
     return await User.updateOne({ id: id }, { $set: { isActivated: false } });
+  }
+
+  async updateTotal(info) {
+    const { id, price } = info;
+    const user = await User.findOne({ id: id })
+    const updatedTotal = user.totalPurchase + price;
+    return await User.updateOne({ id }, { $set: { totalPurchase: updatedTotal } });
+  }
+
+  async updateRank(id) {
+    const user = await User.findOne({ id });
+    if (user.totalPurchase >= 100000) {
+      await User.updateOne({ id }, { $set: { rank: "Gold" } });
+    }
+    else if (user.totalPurchase >= 50000) {
+      await User.updateOne({ id }, { $set: { rank: "Silver" } });
+    }
+    return user.rank;
   }
 }
 

@@ -12,7 +12,6 @@ const envFound = dotenv.config();
 if(!envFound) {
     // throw new AppError
 }
-
 // mongoDB URI 값 체크. 없을 경우 에러 발생
 if(envFound.MONGODB_URI === undefined) {
     // throw new AppError
@@ -22,4 +21,5 @@ module.exports = {
     applicationName: process.env.APPLICATION_NAME ?? "app", // 어플리케이션 이름
     port: parseInt(process.env.PORT ?? "3000", 10), // PORT 번호 10진수로 parsing, 어플리케이션이 바인딩되는 포트
     mongoDBUri: process.env.MONGODB_URI, // mongoDB 연결 주소
+    location: process.env.LOCATION
 };

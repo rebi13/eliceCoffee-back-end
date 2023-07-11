@@ -5,13 +5,23 @@ const { buildResponse } = require('../misc/utils');
 const router = Router();
 const { isAuthenticated, asyncHandler, validator } = require('../middlewares');
 
+
+// 관리자 계정 생성하기
+// router.post('/register-admin', [validator.loginCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
+//   const { id, pw, name, email, phone } = req.body;
+//   const newAdmin = await userService.postAdmin({
+//     id, pw, name, email, phone
+//   });
+//   res.json(buildResponse(newAdmin));
+// }))
+
 router.post(
   '/login',
   [validator.loginCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id, pw } = req.body;
     const userToken = await userService.getUserToken({ id, pw });
-    res.cookie('loginToken', userToken).json(buildResponse({ isLogin: true }));
+    res.cookie('loginToken', userToken).json(buildResponse({ msg: '로그인 성공', isLogin: true }));
   })
 );
 
@@ -104,7 +114,7 @@ router.put(
   asyncHandler(async (req, res, next) => {
     const { address, pw } = req.body;
     const userId = req.userId;
-    const editUser = await userService.postUser({
+    const editUser = await userService.putUser({
       userId,
       address,
       pw,
@@ -121,5 +131,20 @@ router.put(
     res.json(buildResponse(deleteUser));
   })
 );
+
+router.put('/updateTotal', asyncHandler(async (req, res, next) => {
+  const id = req.body.id;
+  const price = Number(req.body.price);
+  const updateTotal = await userService.putTotal({
+    id, price
+  });
+  res.json(buildResponse(updateTotal));
+}))
+
+router.put('/updateRank', asyncHandler(async (req, res, next) => {
+  const { id } = req.body;
+  const updateRank = await userService.putRank(id);
+  res.json(buildResponse(updateRank));
+}))
 
 module.exports = router;

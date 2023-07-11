@@ -44,11 +44,17 @@ const UserSchema = new Schema(
     },
     rank: {
       type: String,
+      enum: ['bronze', 'silver', 'gold'],
+      default: 'bronze'
     },
     isActivated: {
       type: Boolean,
       default: true,
     },
+    totalPurchase: {
+      type: Number,
+      default: 0,
+    }
   },
   {
     collection: 'users',

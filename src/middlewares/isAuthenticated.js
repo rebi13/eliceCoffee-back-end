@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
+  console.log(req.cookies);
   try {
-    const Token = req.cookies.loginToken.token;
+    const Token = req.cookies.loginToken;
     if (!Token || Token === 'null') {
       res.json('로그인이 필요한 서비스입니다.');
       return;

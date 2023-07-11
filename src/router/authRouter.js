@@ -21,7 +21,7 @@ router.post(
   asyncHandler(async (req, res, next) => {
     const { id, pw } = req.body;
     const userToken = await userService.getUserToken({ id, pw });
-    res.cookie('loginToken', userToken).json(buildResponse({ isLogin: true }));
+    res.cookie('loginToken', userToken).json(buildResponse({ msg: '로그인 성공', isLogin: true }));
   })
 );
 
@@ -52,9 +52,10 @@ router.post(
 );
 
 router.get(
-  '/:id',
+  '/',
+  isAuthenticated,
   asyncHandler(async (req, res, next) => {
-    const id = req.params.id;
+    const id = req.userId;
     const user = await userService.getUserInfo(id);
     res.json(buildResponse(user));
   })

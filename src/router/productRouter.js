@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { productService } = require('../services');
-const { asyncHandler } = require('../middlewares');
+const { asyncHandler, validator } = require('../middlewares');
 const utils = require('../misc/utils');
 const router = Router();
 
@@ -23,6 +23,7 @@ router.get('/main', asyncHandler(async (req, res, next) => {
 
 router.get(
   '/:productId',
+  [validator.paramProductIdCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const productId = req.params.productId;
     const product = await productService.getProduct(productId);

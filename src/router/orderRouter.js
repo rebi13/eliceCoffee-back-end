@@ -1,13 +1,12 @@
 const { Router } = require('express');
 const { orderService } = require('../services');
-const { isAuthenticated, asyncHandler } = require('../middlewares');
+const { isAuthenticated, asyncHandler, validator } = require('../middlewares');
 const utils = require('../misc/utils');
 const router = Router();
 
 // 사용자의 주문 전체 정보 (목록)
 router.get(
   '/',
-  isAuthenticated,
   asyncHandler(async (req, res, next) => {
     const userId = req.userId;
     const orders = await orderService.getOrders(userId);
@@ -17,8 +16,7 @@ router.get(
 
 // 사용자의 특정 주문 정보 (상세)
 router.get(
-  '/:id',
-  isAuthenticated,
+  '/:id', validator.paramIdCheck, validator.validatorError,
   asyncHandler(async (req, res, next) => {
     const userId = req.userId;
     const { id } = req.params;
@@ -30,7 +28,7 @@ router.get(
 // 주문 취소
 router.put(
   '/:orderId',
-  isAuthenticated,
+  [validator.paramIdCheck, validator.putOrderCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     // id 이중검증 필요..?
     const { orderId } = req.params;
@@ -50,7 +48,7 @@ router.put(
 // 주문하기
 router.post(
   '/',
-  isAuthenticated,
+  [validator.postOrderCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id, items, itemTotal, userId, address, receiver, receiverPhone, status } = req.body;
     if (!id || !items || !itemTotal || !userId || !address || !receiver || !receiverPhone || !status) {

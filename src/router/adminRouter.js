@@ -2,12 +2,11 @@ const { Router } = require('express');
 const adminService = require('../services/adminService');
 const utils = require('../misc/utils');
 const { asyncHandler, validator } = require('../middlewares');
-const { emailCheck } = require('../middlewares/validator');
 const router = Router();
 
 // 상품 등록
 router.post(
-  '/products',
+  '/products', [validator.productCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id, name, categoryId, price, subImage, keyWord, description, mainImage } = req.body;
     const product = await adminService.postProduct({
@@ -27,6 +26,7 @@ router.post(
 // 특정 상품 정보 가져오기 (수정페이지 접근시)
 router.get(
   '/products/:id',
+  [validator.paramIdCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const product = await adminService.getProduct(id);
@@ -37,6 +37,7 @@ router.get(
 // 상품 정보 변경하기 (수정)
 router.put(
   '/products/:id',
+  [validator.productCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id, name, categoryId, price, subImage, keyWord, description, mainImage } = req.body;
     const product = await adminService.putProduct({
@@ -56,6 +57,7 @@ router.put(
 // 상품 단건 삭제하기
 router.delete(
   '/products/:id',
+  [validator.paramIdCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const product = await adminService.deleteProduct(id);
@@ -75,6 +77,7 @@ router.get(
 // 주문 내역 확인하기 (특정 사용자)
 router.get(
   '/orders/:id',
+  [validator.paramIdCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const order = await adminService.getOrder(id);
@@ -85,6 +88,7 @@ router.get(
 // 특정 주문 내역 삭제하기 (orderId)
 router.delete(
   '/orders/:id',
+  [validator.paramIdCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const order = await adminService.deleteOrder(id);
@@ -95,6 +99,7 @@ router.delete(
 // 카테고리 추가
 router.post(
   '/categories',
+  [validator.categoryCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id, name } = req.body;
     const newCategory = await adminService.postCategory({ id, name });
@@ -139,6 +144,7 @@ router.delete(
 // 주문상태 수정
 router.put(
   '/orders/:id',
+  [validator.paramIdCheck, validator.statusCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const { status } = req.body;

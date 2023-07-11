@@ -21,7 +21,7 @@ router.post(
   asyncHandler(async (req, res, next) => {
     const { id, pw } = req.body;
     const userToken = await userService.getUserToken({ id, pw });
-    res.cookie('loginToken', userToken).json(buildResponse({ msg: '로그인 성공', loginToken: userToken, isLogin: true }));
+    res.cookie('loginToken', userToken).json(buildResponse({ msg: '로그인 성공', isLogin: true }));
   })
 );
 

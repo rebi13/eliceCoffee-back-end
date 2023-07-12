@@ -22,7 +22,7 @@ router.post(
   asyncHandler(async (req, res, next) => {
     const { id, pw } = req.body;
     const userToken = await userService.getUserToken({ id, pw });
-    res.cookie('loginToken', userToken).json(buildResponse({ isLogin: true }));
+    res.cookie('loginToken', userToken).json(buildResponse({ msg: '로그인 성공', isLogin: true }));
   })
 );
 
@@ -54,9 +54,18 @@ router.post(
   })
 );
 
-// 유저 정보 불러오기
+// router.get(
+//   '/:id',
+//   asyncHandler(async (req, res, next) => {
+//     const id = req.params.id;
+//     const user = await userService.getUserInfo(id);
+//     res.json(buildResponse(user));
+//   })
+// );
+
 router.get(
-  '/', isAuthenticated,
+  '/',
+  isAuthenticated,
   asyncHandler(async (req, res, next) => {
     const id = req.userId;
     const user = await userService.getUserInfo(id);

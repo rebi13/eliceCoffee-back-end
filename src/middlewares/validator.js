@@ -52,6 +52,8 @@ const uesrIdCheck = body("userId", "UserId 유효성 검증 오류").notEmpty();
 
 const paramProductIdCheck = param("productId", "ProductId 유효성 검사 오류").notEmpty();
 
+const paramCategoryIdCheck = param("categoryId", "CategoryId 유효성 검사 오류").notEmpty();
+
 const loginCheck = [
   idCheck,
   passwordCheck
@@ -137,5 +139,6 @@ module.exports = {
   putOrderCheck,
   postOrderCheck,
   paramProductIdCheck,
+  paramCategoryIdCheck,
   validatorError
 }

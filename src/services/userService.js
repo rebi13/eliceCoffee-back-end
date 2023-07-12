@@ -43,10 +43,11 @@ class userService {
   async isDuplicated(id) {
     const user = await userModel.findById(id);
     if (user) {
-      if (!user.isActivated) {
-        throw new Error('사용할 수 없는 ID입니다.');
-      }
-      throw new Error('이미 사용중인 아이디입니다.');
+      // if (!user.isActivated) {
+      //   throw new Error('사용할 수 없는 ID입니다.');
+      // }
+      // throw new Error('이미 사용중인 아이디입니다.');
+      return false;
     }
     return true;
   }

@@ -24,12 +24,10 @@ class UserModel {
   async updateUser(userId, userInfo) {
     const { email, address, phone, hashedPW } = userInfo;
     if (hashedPW === undefined) {
-      await User.updateOne({ id: userId }, { $set: { email, address, phone } });
+      return await User.updateOne({ id: userId }, { $set: { email, address, phone } });
     }
-    else await User.updateOne({ id: userId }, { $set: { email, address, phone, pw: hashedPW } });
-    return await User.findOne({ id: userId });
+    else return await User.updateOne({ id: userId }, { $set: { email, address, phone, pw: hashedPW } });
   }
-
   async deleteUser(id) {
     return await User.updateOne({ id: id }, { $set: { isActivated: false } });
   }

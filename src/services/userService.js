@@ -88,9 +88,14 @@ class userService {
   }
 
   async putUser(userInfo) {
-    const { userId, address, pw } = userInfo;
-    const hashedPW = await hashPassword(pw);
-    return await this.userModel.updateUser({ userId, address, hashedPW });
+    const { userId, email, address, phone, newPw } = userInfo;
+    if (newPw === undefined) {
+      return await this.userModel.updateUser(userId, { email, address, phone });
+    }
+    else {
+      const hashedPW = await hashPassword(newPw);
+      return await this.userModel.updateUser(userId, { email, address, phone, hashedPW });
+    }
   }
 
   async deleteUser(userToken) {

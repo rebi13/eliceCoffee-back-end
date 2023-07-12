@@ -26,7 +26,7 @@ function buildResponse(data, errorMessage) {
 hashPassword = async (pw) => {
   const saltRounds = 10;
   const salt = await bcrypt.genSalt(saltRounds);
-  return bcrypt.hash(pw, salt);
+  return await bcrypt.hash(pw, salt);
 }
 
 function getRandomUpperCase() {

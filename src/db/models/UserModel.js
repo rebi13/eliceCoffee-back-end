@@ -35,10 +35,10 @@ class UserModel {
   async updateRank(id) {
     const user = await User.findOne({ id });
     if (user.totalPurchase >= 100000) {
-      await User.updateOne({ id }, { $set: { rank: "Gold" } });
+      await User.updateOne({ id }, { $set: { rank: "gold" } });
     }
     else if (user.totalPurchase >= 50000) {
-      await User.updateOne({ id }, { $set: { rank: "Silver" } });
+      await User.updateOne({ id }, { $set: { rank: "silver" } });
     }
     return user.rank;
   }

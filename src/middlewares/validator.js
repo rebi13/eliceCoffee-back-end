@@ -98,7 +98,6 @@ const putOrderCheck = [
 ]
 
 const postOrderCheck = [
-  orderIdCheck,
   itemsCheck,
   itemTotalCheck,
   uesrIdCheck,

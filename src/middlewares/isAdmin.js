@@ -1,19 +1,19 @@
 const jwt = require('jsonwebtoken');
+const AppError = require('../misc/AppError');
 
 module.exports = (req, res, next) => {
     try {
-        const Token = req.cookies.loginToken.token;
+        const Token = req.cookies.loginToken;
         if (!Token || Token === 'null') {
-            res.json('관리자 로그인이 필요한 서비스입니다.');
-            return;
+            throw new AppError('Unauthorized', 401, '관리자 로그인 후 사용해주세요.');
         }
-        jwt.verify(Token, process.env.JWT_SECRET_KEY, (err, decoded) => {
+        jwt.verify(Token.token, process.env.JWT_SECRET_KEY, (err, decoded) => {
             if (decoded.role !== 'admin') {
-                res.json("접근 권한이 없습니다.");
+                throw new AppError('Unauthorized', 401, '접근 권한이 없습니다.');
             }
         });
         next();
     } catch (error) {
-        res.json('정상적인 토큰이 아닙니다.');
+        next(error);
     }
 };

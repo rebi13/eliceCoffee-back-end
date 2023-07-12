@@ -133,7 +133,7 @@ router.put(
   })
 );
 
-router.put('/updateTotal', asyncHandler(async (req, res, next) => {
+router.put('/updateTotal', [validator.updateTotalCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
   const id = req.body.id;
   const price = Number(req.body.price);
   const updateTotal = await userService.putTotal({
@@ -142,7 +142,7 @@ router.put('/updateTotal', asyncHandler(async (req, res, next) => {
   res.json(buildResponse(updateTotal));
 }))
 
-router.put('/updateRank', asyncHandler(async (req, res, next) => {
+router.put('/updateRank', [validator.idCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
   const { id } = req.body;
   const updateRank = await userService.putRank(id);
   res.json(buildResponse(updateRank));

@@ -34,7 +34,11 @@ const create = async () => {
   });
 
   app.use(function (err, req, res, next) {
-    res.status(400).json(err.message);
+    res.status(400).json({
+      "errorName": err.name,
+      "httpCode": err.httpCode,
+      "errorMessage": err.message
+    });
   });
 
   // 에러 핸들러 등록

@@ -5,7 +5,7 @@ const Product = model('products', ProductSchema);
 
 class ProductModel {
   async create(product) {
-    return await Product.create(product).toObject();
+    return (await Product.create(product)).toObject();
   }
   async find() {
     return await Product.find().lean();
@@ -23,8 +23,13 @@ class ProductModel {
     return await Product.deleteOne({ id: productId });
   }
   async findSix() {
-    const products = (await Product.find().sort({ "createdAt": -1 })).slice(0, 6);
-    return products;
+    return (await Product.find().sort({ "createdAt": -1 })).slice(0, 6);
+  }
+  async findSixByCategoryId(categoryId) {
+    return (await Product.find({ categoryId }).sort({ "createdAt": -1 })).slice(0, 6);
+  }
+  async findSixCoffee() {
+    return (await Product.find({ categoryId: { $ne: 'Supplies' } }).sort({ "createdAt": -1 })).slice(0, 6);
   }
 }
 

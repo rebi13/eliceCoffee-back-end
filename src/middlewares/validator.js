@@ -70,8 +70,9 @@ const resetpwCheck = [
 ];
 
 const meCheck = [
+  emailCheck,
   addressCheck,
-  passwordCheck
+  phoneCheck
 ];
 
 const productCheck = [

@@ -7,19 +7,26 @@ class UserModel {
   async findById(id) {
     return await User.findOne({ id }).lean();
   }
+
   async findByEmail(email) {
     return await User.findOne({ email }).lean();
   }
+
   async create(user) {
     return (await User.create(user)).toObject();
   }
+
   async updatePassword(userInfo) {
     const { id, hashedRPW } = userInfo;
     return await User.updateOne({ id: id }, { $set: { pw: hashedRPW } });
   }
-  async updateUser(userInfo) {
-    const { userId, address, hashedPW } = userInfo;
-    return await User.updateOne({ id: userId }, { $set: { address: address, pw: hashedPW } });
+
+  async updateUser(userId, userInfo) {
+    const { email, address, phone, hashedPW } = userInfo;
+    if (hashedPW === undefined) {
+      return await User.updateOne({ id: userId }, { $set: { email, address, phone } });
+    }
+    else return await User.updateOne({ id: userId }, { $set: { email, address, phone, pw: hashedPW } });
   }
   async deleteUser(id) {
     return await User.updateOne({ id: id }, { $set: { isActivated: false } });

@@ -2,6 +2,7 @@ const { userModel } = require('../db/models');
 const jwt = require('jsonwebtoken');
 const { hashPassword, randomPassword } = require('../misc/utils');
 const bcrypt = require('bcrypt');
+const AppError = require('../misc/AppError');
 
 class userService {
   constructor(userModel) {
@@ -11,14 +12,14 @@ class userService {
     const { id, pw } = userInfo;
     const user = await this.userModel.findById(id);
     if (!user) {
-      throw new Error('가입되지 않은 ID입니다.');
+      throw new AppError('Bad Request', 400, "가입되지 않은 ID입니다.");
     }
     if (!user.isActivated) {
-      throw new Error('사용할 수 없는 ID입니다.');
+      throw new AppError('Bad Request', 400, '사용할 수 없는 ID입니다.');
     }
     const isPasswordCorrect = bcrypt.compareSync(pw, user.pw);
     if (!isPasswordCorrect) {
-      throw new Error('PW를 확인해 주세요.');
+      throw new AppError('Bad Request', 400, 'PW를 확인해 주세요.');
     }
     const role = user.role;
     const secretKey = process.env.JWT_SECRET_KEY;
@@ -31,9 +32,9 @@ class userService {
     const user = await userModel.findByEmail(email);
     if (user) {
       if (!user.isActivated) {
-        throw new Error('사용할 수 없는 ID입니다.');
+        throw new AppError('Bad Request', 400, '사용할 수 없는 ID입니다.');
       }
-      throw new Error('이미 사용중인 이메일입니다.');
+      throw new AppError('Bad Request', 400, '이미 사용중인 이메일입니다.');
     }
     const hashedPW = await hashPassword(pw);
     const newUser = await this.userModel.create({ id, pw: hashedPW, name, email, phone });
@@ -60,10 +61,10 @@ class userService {
   async getId(email) {
     const user = await userModel.findByEmail(email);
     if (!user) {
-      throw new Error('가입되지 않은 이메일입니다.');
+      throw new AppError('Bad Request', 400, '가입되지 않은 이메일입니다.');
     }
     if (!user.isActivated) {
-      throw new Error('사용할 수 없는 ID입니다.');
+      throw new AppError('Bad Request', 400, '사용할 수 없는 ID입니다.');
     }
     const userId = user.id;
     return { userId };
@@ -73,13 +74,13 @@ class userService {
     const { id, email } = userInfo;
     const user = await userModel.findById(id);
     if (!user) {
-      throw new Error('가입되지 않은 아이디입니다.');
+      throw new AppError('Bad Request', 400, '가입되지 않은 아이디입니다.');
     }
     if (user.email !== email) {
-      throw new Error('가입되지 않은 이메일입니다.');
+      throw new AppError('Bad Request', 400, '가입되지 않은 이메일입니다.');
     }
     if (!user.isActivated) {
-      throw new Error('사용할 수 없는 ID입니다.');
+      throw new AppError('Bad Request', 400, '사용할 수 없는 ID입니다.');
     }
     const randompw = randomPassword();
     const hashedRPW = await hashPassword(randompw);

@@ -33,6 +33,14 @@ const create = async () => {
     // new AppError()
   });
 
+  app.use(function (err, req, res, next) {
+    res.status(400).json({
+      "errorName": err.name,
+      "httpCode": err.httpCode,
+      "errorMessage": err.message
+    });
+  });
+
   // 에러 핸들러 등록
 
   // express와 http.Server 분리

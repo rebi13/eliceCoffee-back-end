@@ -1,6 +1,7 @@
 const { productModel } = require('../db/models');
 const { orderModel } = require('../db/models');
 const { categoryModel } = require('../db/models');
+const AppError = require('../misc/AppError');
 
 class AdminService {
   constructor(productModel, orderModel, categoryModel) {
@@ -11,10 +12,6 @@ class AdminService {
 
   // 상품 등록 관리자
   async postProduct(product) {
-    const { id, name, categoryId, price, subImage, keyWord, description, mainImage, option } = product;
-    if (!id || !name || !categoryId || !price || !subImage || !keyWord || !description || !mainImage || !option) {
-      throw new Error('필수 정보를 모두 입력해주세요.');
-    }
     const result = await this.productModel.create(product);
     return result;
   }
@@ -27,11 +24,7 @@ class AdminService {
 
   // 상품 단건 수정 관리자
   async putProduct(product) {
-    const { id, name, categoryId, price, subImage, keyWord, description, mainImage, option } = product;
-    if (!id || !name || !categoryId || !price || !subImage || !keyWord || !description || !mainImage || !option) {
-      throw new Error('필수 정보를 모두 입력해주세요.');
-    }
-    const result = await this.productModel.updateOne(product);
+    const result = await this.productModel.update(product);
     return result;
   }
 
@@ -63,11 +56,11 @@ class AdminService {
     const { id, name } = categoryInfo;
     const category = await this.categoryModel.findById(id);
     if (category) {
-      throw new Error('이미 존재하는 카테고리ID입니다.');
+      throw new AppError('Bad Request', 400, '이미 존재하는 카테고리ID입니다.');
     }
     const category2 = await this.categoryModel.findByName(name);
     if (category2) {
-      throw new Error('이미 존재하는 카테고리 이름입니다.');
+      throw new AppError('Bad Request', 400, '이미 존재하는 카테고리 이름입니다.');
     }
     const result = await this.categoryModel.create({ id, name });
     return result;
@@ -76,7 +69,7 @@ class AdminService {
   async getCategory(id) {
     const category = await this.categoryModel.findById(id);
     if (!category) {
-      throw new Error('존재하지 않는 카테고리입니다.');
+      throw new AppError('Bad Request', 400, '존재하지 않는 카테고리입니다.');
     }
     const result = await this.categoryModel.findById(id);
     return result;
@@ -86,7 +79,7 @@ class AdminService {
     const { id, name } = categoryInfo;
     const category = await this.categoryModel.findById(id);
     if (!category) {
-      throw new Error('존재하지 않는 카테고리입니다.');
+      throw new AppError('Bad Request', 400, '존재하지 않는 카테고리입니다.');
     }
     const result = await this.categoryModel.update(categoryInfo);
     return result;
@@ -96,7 +89,7 @@ class AdminService {
   async deleteCategory(id) {
     const category = await this.categoryModel.findById(id);
     if (!category) {
-      throw new Error('존재하지 않는 카테고리입니다.');
+      throw new AppError('Bad Request', 400, '존재하지 않는 카테고리입니다.');
     }
     const result = await this.categoryModel.deleteCategory(id);
     return result;

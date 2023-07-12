@@ -15,6 +15,7 @@ const { isAuthenticated, asyncHandler, validator } = require('../middlewares');
 //   res.json(buildResponse(newAdmin));
 // }))
 
+// 로그인
 router.post(
   '/login',
   [validator.loginCheck, validator.validatorError],
@@ -25,6 +26,7 @@ router.post(
   })
 );
 
+// 회원가입
 router.post(
   '/register',
   [validator.registerCheck, validator.validatorError],
@@ -41,6 +43,7 @@ router.post(
   })
 );
 
+// 아이디 중복검사
 router.post(
   '/checkDupId',
   [validator.idCheck, validator.validatorError],
@@ -76,7 +79,7 @@ router.put('/logout', async (req, res, next) => {
 
 router.post(
   '/search-id',
-  [validator.emailCheck, validator.validatorError],
+  [isAuthenticated, validator.emailCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { email } = req.body;
     const userId = await userService.getId(email);
@@ -86,7 +89,7 @@ router.post(
 
 router.patch(
   '/reset-pw',
-  [validator.resetpwCheck, validator.validatorError],
+  [isAuthenticated, validator.resetpwCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id, email } = req.body;
     const resetPw = await userService.postPW({ id, email });
@@ -124,7 +127,7 @@ router.put(
 );
 
 router.put(
-  '/withdrawal',
+  '/withdrawal', isAuthenticated,
   asyncHandler(async (req, res, next) => {
     const userToken = req.cookies.loginToken.token;
     const deleteUser = await userService.deleteUser(userToken);

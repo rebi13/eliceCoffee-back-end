@@ -29,6 +29,11 @@ class ProductService {
     const products = await this.productModel.findSixByCategoryId(categoryId);
     return products;
   }
+
+  async getSixCoffees() {
+    const products = await this.productModel.findSixCoffee();
+    return products;
+  }
 }
 
 module.exports = new ProductService(productModel);

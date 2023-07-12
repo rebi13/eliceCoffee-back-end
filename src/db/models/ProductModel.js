@@ -28,6 +28,9 @@ class ProductModel {
   async findSixByCategoryId(categoryId) {
     return (await Product.find({ categoryId }).sort({ "createdAt": -1 })).slice(0, 6);
   }
+  async findSixCoffee() {
+    return (await Product.find({ categoryId: { $ne: 'Supplies' } }).sort({ "createdAt": -1 })).slice(0, 6);
+  }
 }
 
 module.exports = new ProductModel();

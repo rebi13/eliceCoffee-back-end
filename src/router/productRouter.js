@@ -21,13 +21,20 @@ router.get('/main', asyncHandler(async (req, res, next) => {
   res.json(utils.buildResponse(products));
 }));
 
+router.get('/main/coffee', asyncHandler(async (req, res, next) => {
+  const products = await productService.getSixCoffees();
+  res.json(utils.buildResponse(products));
+}))
+
 router.get('/main/:categoryId',
   [validator.paramCategoryIdCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const categoryId = req.params.categoryId;
     const products = await productService.getCategoryProducts(categoryId);
     res.json(utils.buildResponse(products));
-  }))
+  })
+);
+
 
 router.get(
   '/:productId',

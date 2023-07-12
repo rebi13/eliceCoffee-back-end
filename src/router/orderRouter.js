@@ -51,9 +51,6 @@ router.post(
   [validator.postOrderCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { items, itemTotal, userId, address, receiver, receiverPhone } = req.body;
-    if (!items || !itemTotal || !userId || !address || !receiver || !receiverPhone) {
-      throw new Error('필수 정보를 모두 입력해주세요.');
-    }
     const data = await orderService.postOrder({
       items,
       itemTotal,
@@ -61,7 +58,7 @@ router.post(
       address,
       receiver,
       receiverPhone,
-      status : "paid",
+      status: "paid",
     });
     res.json(utils.buildResponse(data));
   })

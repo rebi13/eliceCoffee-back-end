@@ -11,8 +11,8 @@ class AdminService {
 
   // 상품 등록 관리자
   async postProduct(product) {
-    const { id, name, categoryId, price, subImage, keyWord, description, mainImage } = product;
-    if (!id || !name || !categoryId || !price || !subImage || !keyWord || !description || !mainImage) {
+    const { id, name, categoryId, price, subImage, keyWord, description, mainImage, option } = product;
+    if (!id || !name || !categoryId || !price || !subImage || !keyWord || !description || !mainImage || !option) {
       throw new Error('필수 정보를 모두 입력해주세요.');
     }
     const result = await this.productModel.create(product);
@@ -27,11 +27,11 @@ class AdminService {
 
   // 상품 단건 수정 관리자
   async putProduct(product) {
-    const { id, name, categoryId, price, subImage, keyWord, description, mainImage } = product;
-    if (!id || !name || !categoryId || !price || !subImage || !keyWord || !description || !mainImage) {
+    const { id, name, categoryId, price, subImage, keyWord, description, mainImage, option } = product;
+    if (!id || !name || !categoryId || !price || !subImage || !keyWord || !description || !mainImage || !option) {
       throw new Error('필수 정보를 모두 입력해주세요.');
     }
-    const result = await this.productModel.update(product);
+    const result = await this.productModel.updateOne(product);
     return result;
   }
 

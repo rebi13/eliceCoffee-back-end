@@ -6,9 +6,10 @@ const router = Router();
 
 // 상품 등록
 router.post(
-  '/products', [validator.productCheck, validator.validatorError],
+  '/products',
+  [validator.productCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
-    const { id, name, categoryId, price, subImage, keyWord, description, mainImage } = req.body;
+    const { id, name, categoryId, price, subImage, keyWord, description, mainImage, option } = req.body;
     const product = await adminService.postProduct({
       id,
       name,
@@ -18,6 +19,7 @@ router.post(
       keyWord,
       description,
       mainImage,
+      option,
     });
     res.json(utils.buildResponse(product));
   })
@@ -39,7 +41,7 @@ router.put(
   '/products/:id',
   [validator.productCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
-    const { id, name, categoryId, price, subImage, keyWord, description, mainImage } = req.body;
+    const { id, name, categoryId, price, subImage, keyWord, description, mainImage, option } = req.body;
     const product = await adminService.putProduct({
       id,
       name,
@@ -49,6 +51,7 @@ router.put(
       keyWord,
       description,
       mainImage,
+      option,
     });
     res.json(utils.buildResponse(product));
   })

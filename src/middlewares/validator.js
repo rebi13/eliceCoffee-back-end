@@ -52,6 +52,9 @@ const paramProductIdCheck = param("productId", "ProductId 유효성 검사 오�
 
 const paramCategoryIdCheck = param("categoryId", "CategoryId 유효성 검사 오류").notEmpty();
 
+const optionCheck = body("option", "Option 유효성 검증 오류").notEmpty();
+
+
 const loginCheck = [
   idCheck,
   passwordCheck
@@ -84,6 +87,7 @@ const productCheck = [
   keyWordCheck,
   descriptionCheck,
   mainImageCheck,
+  optionCheck
 ];
 
 const categoryCheck = [
@@ -105,6 +109,11 @@ const postOrderCheck = [
   addressCheck,
   receiverCheck,
   receiverPhoneCheck,
+]
+
+const updateTotalCheck = [
+  idCheck,
+  priceCheck
 ]
 
 const validatorError = (req, res, next) => {
@@ -137,5 +146,6 @@ module.exports = {
   postOrderCheck,
   paramProductIdCheck,
   paramCategoryIdCheck,
+  updateTotalCheck,
   validatorError
 }

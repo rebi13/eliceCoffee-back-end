@@ -27,7 +27,6 @@ router.get('/main/coffee', asyncHandler(async (req, res, next) => {
 }))
 
 router.get('/main/:categoryId',
-  [validator.paramCategoryIdCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const categoryId = req.params.categoryId;
     const products = await productService.getCategoryProducts(categoryId);
@@ -38,7 +37,6 @@ router.get('/main/:categoryId',
 
 router.get(
   '/:productId',
-  [validator.paramProductIdCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const productId = req.params.productId;
     const product = await productService.getProduct(productId);

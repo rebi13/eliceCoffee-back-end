@@ -16,7 +16,7 @@ router.get(
 
 // 사용자의 특정 주문 정보 (상세)
 router.get(
-  '/:id', validator.paramIdCheck, validator.validatorError,
+  '/:id',
   asyncHandler(async (req, res, next) => {
     const userId = req.userId;
     const { id } = req.params;

@@ -136,7 +136,6 @@ router.put(
 //카테고리 삭제
 router.delete(
   '/categories/:id',
-  [validator.paramIdCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const category = await adminService.deleteCategory(id);
@@ -147,7 +146,7 @@ router.delete(
 // 주문상태 수정
 router.put(
   '/orders/:id',
-  [validator.paramIdCheck, validator.statusCheck, validator.validatorError],
+  [validator.statusCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const { status } = req.body;

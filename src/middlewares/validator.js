@@ -46,10 +46,6 @@ const itemTotalCheck = body("itemTotal", "ItemTotal 유효성 검증 오류").no
 
 const uesrIdCheck = body("userId", "UserId 유효성 검증 오류").notEmpty();
 
-const paramProductIdCheck = param("productId", "ProductId 유효성 검사 오류").notEmpty();
-
-const paramCategoryIdCheck = param("categoryId", "CategoryId 유효성 검사 오류").notEmpty();
-
 const optionCheck = body("option", "Option 유효성 검증 오류").notEmpty();
 
 

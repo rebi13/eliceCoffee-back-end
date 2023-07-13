@@ -42,8 +42,6 @@ const receiverPhoneCheck = body("receiverPhone", "ReceiverPhone 유효성 오류
 
 const isOrderCancelCheck = body("isOrderCancle", "IsOrderCancel 유효성 검사 오류").notEmpty();
 
-const orderIdCheck = body("id", "Id 유효성 검증 오류").notEmpty();
-
 const itemsCheck = body("items", "Items 유효성 검증 오류").notEmpty();
 
 const itemTotalCheck = body("itemTotal", "ItemTotal 유효성 검증 오류").notEmpty();
@@ -107,7 +105,6 @@ const postOrderCheck = [
   addressCheck,
   receiverCheck,
   receiverPhoneCheck,
-  statusCheck,
 ]
 
 const validatorError = (req, res, next) => {

@@ -12,12 +12,12 @@ class OrderModel {
 
   // 주문 정보를 변경한다. (배송주소, 배송자명 등)
   async updateOrder(id, { address, receiver, receiverPhone }) {
-    return await Order.updateOne({ id }, { $set: { address, receiver, receiverPhone } });
+    return await Order.updateOne({ "_id": id }, { $set: { address, receiver, receiverPhone } });
   }
 
   // 주문 상태를 변경한다. (관리자, 사용자 = status: "paid")
   async updateStatus(id, status) {
-    return await Order.updateOne(id, { $set: status });
+    return await Order.updateOne({ "_id": id }, { $set: status });
   }
 
   // 주문 정보를 저장한다.

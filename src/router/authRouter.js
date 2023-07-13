@@ -115,10 +115,10 @@ router.put(
   isAuthenticated,
   [validator.meCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
-    const { email, address, phone, newPw } = req.body;
+    const { email, phone, newPw } = req.body;
     const userId = req.userId;
     const editUser = await userService.putUser({
-      userId, email, address, phone, newPw
+      userId, email, phone, newPw
     });
     res.json(buildResponse(editUser));
   })

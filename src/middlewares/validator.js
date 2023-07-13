@@ -74,7 +74,6 @@ const resetpwCheck = [
 
 const meCheck = [
   emailCheck,
-  addressCheck,
   phoneCheck
 ];
 

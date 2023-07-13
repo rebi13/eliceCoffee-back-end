@@ -46,6 +46,10 @@ class OrderModel {
   async deleteOrder(id) {
     return await Order.deleteOne({ id });
   }
+
+  async findOrderByOrderId(id) {
+    return await Order.findOne({ id });
+  }
 }
 
 module.exports = new OrderModel();

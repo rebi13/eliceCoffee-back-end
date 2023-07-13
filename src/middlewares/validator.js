@@ -18,8 +18,6 @@ const phoneCheck = body("phone", "Phone 유효성 검증 오류").notEmpty().isM
 
 const addressCheck = body("address", "Address 유효성 검증 오류").notEmpty();
 
-const paramIdCheck = param("id", "ID 유효성 검증 오류").notEmpty();
-
 const productIdCheck = body('id', "ID 유효성 검증 오류").notEmpty();
 
 const categoryIdCheck = body('categoryId', "CategoryId 유효성 검증 오류").notEmpty();
@@ -40,17 +38,13 @@ const receiverCheck = body('receiver', "Receiver 유효성 검증 오류").notEm
 
 const receiverPhoneCheck = body("receiverPhone", "ReceiverPhone 유효성 오류").notEmpty();
 
-const isOrderCancelCheck = body("isOrderCancle", "IsOrderCancel 유효성 검사 오류").notEmpty();
+const isOrderCancleCheck = body("isOrderCancle", "IsOrderCancle 유효성 검사 오류").notEmpty();
 
 const itemsCheck = body("items", "Items 유효성 검증 오류").notEmpty();
 
 const itemTotalCheck = body("itemTotal", "ItemTotal 유효성 검증 오류").notEmpty();
 
 const uesrIdCheck = body("userId", "UserId 유효성 검증 오류").notEmpty();
-
-const paramProductIdCheck = param("productId", "ProductId 유효성 검사 오류").notEmpty();
-
-const paramCategoryIdCheck = param("categoryId", "CategoryId 유효성 검사 오류").notEmpty();
 
 const optionCheck = body("option", "Option 유효성 검증 오류").notEmpty();
 
@@ -98,7 +92,7 @@ const putOrderCheck = [
   addressCheck,
   receiverCheck,
   receiverPhoneCheck,
-  isOrderCancelCheck
+  isOrderCancleCheck
 ]
 
 const postOrderCheck = [

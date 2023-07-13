@@ -16,7 +16,7 @@ router.get(
 
 // 사용자의 특정 주문 정보 (상세)
 router.get(
-  '/:id', validator.paramIdCheck, validator.validatorError,
+  '/:id',
   asyncHandler(async (req, res, next) => {
     const userId = req.userId;
     const { id } = req.params;
@@ -28,7 +28,7 @@ router.get(
 // 주문 취소
 router.put(
   '/:orderId',
-  [validator.paramIdCheck, validator.putOrderCheck, validator.validatorError],
+  [validator.putOrderCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     // id 이중검증 필요..?
     const { orderId } = req.params;

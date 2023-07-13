@@ -18,7 +18,6 @@ const { isAuthenticated, asyncHandler, validator } = require('../middlewares');
 // 로그인
 router.post(
   '/login',
-  [validator.loginCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id, pw } = req.body;
     const userToken = await userService.getUserToken({ id, pw });

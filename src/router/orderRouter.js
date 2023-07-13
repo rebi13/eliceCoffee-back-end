@@ -28,7 +28,7 @@ router.get(
 // 주문 취소
 router.put(
   '/:orderId',
-  [validator.paramIdCheck, validator.putOrderCheck, validator.validatorError],
+  [validator.putOrderCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     // id 이중검증 필요..?
     const { orderId } = req.params;

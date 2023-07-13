@@ -131,14 +131,11 @@ module.exports = {
   emailCheck,
   resetpwCheck,
   meCheck,
-  paramIdCheck,
   productCheck,
   categoryCheck,
   statusCheck,
   putOrderCheck,
   postOrderCheck,
-  paramProductIdCheck,
-  paramCategoryIdCheck,
   updateTotalCheck,
   validatorError
 }

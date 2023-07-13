@@ -38,7 +38,7 @@ const receiverCheck = body('receiver', "Receiver 유효성 검증 오류").notEm
 
 const receiverPhoneCheck = body("receiverPhone", "ReceiverPhone 유효성 오류").notEmpty();
 
-const isOrderCancleCheck = body("isOrderCancle", "IsOrderCancle 유효성 검사 오류").notEmpty();
+const isOrderCancelCheck = body("isOrderCancel", "IsOrderCancel 유효성 검사 오류").notEmpty();
 
 const itemsCheck = body("items", "Items 유효성 검증 오류").notEmpty();
 

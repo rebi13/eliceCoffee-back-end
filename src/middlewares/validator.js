@@ -92,7 +92,7 @@ const putOrderCheck = [
   addressCheck,
   receiverCheck,
   receiverPhoneCheck,
-  isOrderCancleCheck
+  isOrderCancelCheck
 ]
 
 const postOrderCheck = [

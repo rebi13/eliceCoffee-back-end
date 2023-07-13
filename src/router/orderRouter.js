@@ -38,7 +38,7 @@ router.put(
   })
 );
 
-router.put('/:orderId', asyncHandler(async (req, res, next) => {
+router.put('/:orderId/cancel', asyncHandler(async (req, res, next) => {
   const { orderId } = req.params;
   const data = await orderService.putStatus(orderid, { status: 'pending' });
   res.json(utils.buildResponse(data));

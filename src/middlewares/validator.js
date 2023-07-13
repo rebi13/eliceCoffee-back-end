@@ -91,8 +91,7 @@ const categoryCheck = [
 const putOrderCheck = [
   addressCheck,
   receiverCheck,
-  receiverPhoneCheck,
-  isOrderCancelCheck
+  receiverPhoneCheck
 ]
 
 const postOrderCheck = [

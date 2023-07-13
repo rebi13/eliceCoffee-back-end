@@ -32,18 +32,17 @@ router.put(
   asyncHandler(async (req, res, next) => {
     // id 이중검증 필요..?
     const { orderId } = req.params;
-    const { address, receiver, receiverPhone, isOrderCancel } = req.body;
-    let data;
-    if (isOrderCancel) {
-      // 주문 취소
-      data = await orderService.putStatus(orderId, { status: 'pending' });
-    } else {
-      // 배송지 변경
-      data = await orderService.putOrder(orderId, { address, receiver, receiverPhone });
-    }
+    const { address, receiver, receiverPhone } = req.body;
+    const data = await orderService.putOrder(orderId, { address, receiver, receiverPhone });
     res.json(utils.buildResponse(data));
   })
 );
+
+router.put('/:orderId', asyncHandler(async (req, res, next) => {
+  const { orderId } = req.params;
+  const data = await orderService.putStatus(orderid, { status: 'pending' });
+  res.json(utils.buildResponse(data));
+}))
 
 // 주문하기
 router.post(

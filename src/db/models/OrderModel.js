@@ -40,7 +40,7 @@ class OrderModel {
 
   // 특정 주문에 대한 내역을 조회한다. (사용자)
   async findOrderById(userId, id) {
-    return await Order.find({ userId, id }).lean();
+    return await Order.find({ userId, _id: id }).lean();
   }
 
   async deleteOrder(id) {

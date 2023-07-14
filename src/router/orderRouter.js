@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { orderService } = require('../services');
+const { orderService, userService } = require('../services');
 const { isAuthenticated, asyncHandler, validator } = require('../middlewares');
 const utils = require('../misc/utils');
 const router = Router();
@@ -25,7 +25,7 @@ router.get(
   })
 );
 
-// 주문 취소
+// 주문 수정
 router.put(
   '/:orderId',
   [validator.putOrderCheck, validator.validatorError],
@@ -34,13 +34,24 @@ router.put(
     const { orderId } = req.params;
     const { address, receiver, receiverPhone } = req.body;
     const data = await orderService.putOrder(orderId, { address, receiver, receiverPhone });
+    await userService.putTotal({
+      userId, itemTotal
+    });
+    await userService.putRank(userId);
     res.json(utils.buildResponse(data));
   })
 );
 
+// 주문취소 
 router.put('/:orderId/cancel', asyncHandler(async (req, res, next) => {
   const { orderId } = req.params;
   const data = await orderService.putStatus(orderId, { status: 'pending' });
+  const order = await orderService.getOrder(req.userId, orderId);
+  const cancelPrice = (0 - order[0].putTotal);
+  await userService.putTotal({
+    userId, cancelPrice
+  });
+  await userService.putRank(userId);
   res.json(utils.buildResponse(data));
 }))
 
@@ -59,6 +70,10 @@ router.post(
       receiverPhone,
       status: "paid",
     });
+    await userService.putTotal({
+      userId, itemTotal
+    });
+    await userService.putRank(userId);
     res.json(utils.buildResponse(data));
   })
 );

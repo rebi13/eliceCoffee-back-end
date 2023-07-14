@@ -27,21 +27,21 @@ class OrderModel {
 
   // 주문 내역을 전체 조회한다. (관리자)
   async findOrders() {
-    return await Order.find({}).lean();
+    return await Order.find({}).sort({ "createdAt": -1 }).lean();
   }
   // 주문 내역을 전체 조회한다. (사용자)
   async findOrdersByUserId(userId) {
-    return await Order.find({ userId }).lean();
+    return await Order.find({ userId }).sort({ "createdAt": -1 }).lean();
   }
 
   // 특정 사용자의 주문 내역을 조회한다. (관리자)
   async findOrderByUserId(id) {
-    return await Order.find({ userId: id }).lean();
+    return await Order.find({ userId: id }).sort({ "createdAt": -1 }).lean();
   }
 
   // 특정 주문에 대한 내역을 조회한다. (사용자)
   async findOrderById(userId, id) {
-    return await Order.find({ userId, _id: id }).lean();
+    return await Order.find({ userId, _id: id }).sort({ "createdAt": -1 }).lean();
   }
 
   async deleteOrder(id) {

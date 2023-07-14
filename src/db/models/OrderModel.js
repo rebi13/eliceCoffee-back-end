@@ -22,7 +22,6 @@ class OrderModel {
 
   // 주문 정보를 저장한다.
   async createOrder(orderInfo) {
-    console.log(orderInfo);
     return (await Order.create(orderInfo)).toObject();
   }
 

@@ -33,9 +33,9 @@ class UserModel {
   }
 
   async updateTotal(info) {
-    const { id, price } = info;
-    const user = await User.findOne({ id: id })
-    const updatedTotal = user.totalPurchase + price;
+    const { userId, itemTotal } = info;
+    const user = await User.findOne({ id: userId })
+    const updatedTotal = user.totalPurchase + itemTotal;
     return await User.updateOne({ id }, { $set: { totalPurchase: updatedTotal } });
   }
 

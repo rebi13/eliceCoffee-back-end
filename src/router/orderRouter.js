@@ -45,11 +45,12 @@ router.put(
 // 주문취소 
 router.put('/:orderId/cancel', asyncHandler(async (req, res, next) => {
   const { orderId } = req.params;
+  const userId = req.userId;
   const data = await orderService.putStatus(orderId, { status: 'pending' });
-  const order = await orderService.getOrder(req.userId, orderId);
-  const cancelPrice = (0 - order[0].putTotal);
+  const order = await orderService.getOrder(userId, orderId);
+  const itemTotal = Number(0 - order[0].itemTotal);
   await userService.putTotal({
-    userId, cancelPrice
+    userId, itemTotal
   });
   await userService.putRank(userId);
   res.json(utils.buildResponse(data));

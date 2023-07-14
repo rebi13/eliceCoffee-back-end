@@ -47,6 +47,9 @@ class UserModel {
     else if (user.totalPurchase >= 50000) {
       await User.updateOne({ id }, { $set: { rank: "silver" } });
     }
+    else {
+      await User.updateOne({ id }, { $set: { rank: 'bronze' } })
+    }
     return user.rank;
   }
 }

@@ -1,13 +1,12 @@
 const { Router } = require('express');
-const { orderService } = require('../services');
-const { isAuthenticated, asyncHandler } = require('../middlewares');
+const { orderService, userService } = require('../services');
+const { isAuthenticated, asyncHandler, validator } = require('../middlewares');
 const utils = require('../misc/utils');
 const router = Router();
 
 // 사용자의 주문 전체 정보 (목록)
 router.get(
   '/',
-  isAuthenticated,
   asyncHandler(async (req, res, next) => {
     const userId = req.userId;
     const orders = await orderService.getOrders(userId);
@@ -18,7 +17,6 @@ router.get(
 // 사용자의 특정 주문 정보 (상세)
 router.get(
   '/:id',
-  isAuthenticated,
   asyncHandler(async (req, res, next) => {
     const userId = req.userId;
     const { id } = req.params;
@@ -27,41 +25,57 @@ router.get(
   })
 );
 
-// 주문 취소
+// 주문 수정
 router.put(
   '/:orderId',
-  isAuthenticated,
+  [validator.putOrderCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     // id 이중검증 필요..?
     const { orderId } = req.params;
-    const { address, isOrderCancel } = req.body;
-    let data;
-    if (isOrderCancel) {
-      // 주문 취소
-      data = await orderService.putStatus(orderId, { status: 'pending' });
-    } else {
-      // 배송지 변경
-      data = await orderService.putOrder(orderId, { address, receiver });
-    }
+    const { address, receiver, receiverPhone } = req.body;
+    const data = await orderService.putOrder(orderId, { address, receiver, receiverPhone });
+    await userService.putTotal({
+      userId, itemTotal
+    });
+    await userService.putRank(userId);
     res.json(utils.buildResponse(data));
   })
 );
 
+// 주문취소 
+router.put('/:orderId/cancel', asyncHandler(async (req, res, next) => {
+  const { orderId } = req.params;
+  const userId = req.userId;
+  const data = await orderService.putStatus(orderId, { status: 'pending' });
+  const order = await orderService.getOrder(userId, orderId);
+  const itemTotal = Number(0 - order[0].itemTotal);
+  await userService.putTotal({
+    userId, itemTotal
+  });
+  await userService.putRank(userId);
+  res.json(utils.buildResponse(data));
+}))
+
 // 주문하기
 router.post(
   '/',
-  isAuthenticated,
+  [validator.postOrderCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
-    const { id, items, itemTotal, userId, address, receiver, status } = req.body;
-
-    if (!id || !items || !itemTotal || !userId || !address || !receiver || !status) {
-      throw new Error('필수 정보를 모두 입력해주세요.');
-    }
-    const data = await orderService.postOrder({ id, items, itemTotal, userId, address, receiver, status });
-
+    const { items, itemTotal, userId, address, receiver, receiverPhone } = req.body;
+    const data = await orderService.postOrder({
+      items,
+      itemTotal,
+      userId,
+      address,
+      receiver,
+      receiverPhone,
+      status: "paid",
+    });
+    await userService.putTotal({
+      userId, itemTotal
+    });
+    await userService.putRank(userId);
     res.json(utils.buildResponse(data));
-
-    return data;
   })
 );
 

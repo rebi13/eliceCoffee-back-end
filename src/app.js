@@ -13,7 +13,11 @@ const create = async () => {
   const app = express();
 
   // CORS 에러 방지
-  app.use(cors());
+  app.use(cors({
+    credentials: true,
+    //origin: `http://${config.location}:${config.port}`,
+   origin: 'http://localhost:8080'
+  }));
 
   // Content-Type: application/json 형태의 데이터를 인식하고 핸들링할 수 있게 함
   app.use(express.json());
@@ -27,6 +31,14 @@ const create = async () => {
   app.use((req, res, next) => {
     next();
     // new AppError()
+  });
+
+  app.use(function (err, req, res, next) {
+    res.status(400).json({
+      "errorName": err.name,
+      "httpCode": err.httpCode,
+      "errorMessage": err.message
+    });
   });
 
   // 에러 핸들러 등록

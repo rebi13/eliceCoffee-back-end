@@ -1,16 +1,16 @@
-const { Router } = require("express");
-const adminService = require("../services/adminService");
-const utils = require("../misc/utils");
-const { asyncHandler, validator } = require("../middlewares");
-const { emailCheck } = require("../middlewares/validator");
+const { Router } = require('express');
+const adminService = require('../services/adminService');
+const utils = require('../misc/utils');
+const { asyncHandler, validator } = require('../middlewares');
 const router = Router();
 
 // 상품 등록
 router.post(
   '/products',
+  [validator.productCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
-    const { id, name, categoryId, price, subImage, keyWord, description, mainImage } = req.body;
-    const product = await adminService.addProduct({
+    const { id, name, categoryId, price, subImage, keyWord, description, mainImage, option } = req.body;
+    const product = await adminService.postProduct({
       id,
       name,
       categoryId,
@@ -19,6 +19,7 @@ router.post(
       keyWord,
       description,
       mainImage,
+      option,
     });
     res.json(utils.buildResponse(product));
   })
@@ -37,8 +38,9 @@ router.get(
 // 상품 정보 변경하기 (수정)
 router.put(
   '/products/:id',
+  [validator.productCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
-    const { id, name, categoryId, price, subImage, keyWord, description, mainImage } = req.body;
+    const { id, name, categoryId, price, subImage, keyWord, description, mainImage, option } = req.body;
     const product = await adminService.putProduct({
       id,
       name,
@@ -48,6 +50,7 @@ router.put(
       keyWord,
       description,
       mainImage,
+      option,
     });
     res.json(utils.buildResponse(product));
   })
@@ -93,37 +96,52 @@ router.delete(
 );
 
 // 카테고리 추가
-router.post('/categories', [validator.idCheck, validator.nameCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
-  const { id, name } = req.body;
-  const newCategory = await adminService.addCategory({ id, name });
-  res.json(utils.buildResponse(newCategory));
-}));
+router.post(
+  '/categories',
+  [validator.categoryCheck, validator.validatorError],
+  asyncHandler(async (req, res, next) => {
+    const { id, name } = req.body;
+    const newCategory = await adminService.postCategory({ id, name });
+    res.json(utils.buildResponse(newCategory));
+  })
+);
 
 //카테고리 조회
-router.get("/categories/:id", [validator.paramIdCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const category = await adminService.getCategory(id);
-  res.json(utils.buildResponse(category))
-}));
+router.get(
+  '/categories/:id',
+  asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+    const category = await adminService.getCategory(id);
+    res.json(utils.buildResponse(category));
+  })
+);
 
 //카테고리 수정
-router.put("/categories/:id", [validator.paramIdCheck, validator.nameCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const { name } = req.body;
-  const category = await adminService.putCategory({ id, name });
-  res.json(utils.buildResponse(category));
-}))
+router.put(
+  '/categories/:id',
+  [validator.nameCheck, validator.validatorError],
+  asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+    const { name } = req.body;
+    const category = await adminService.putCategory({ id, name });
+    res.json(utils.buildResponse(category));
+  })
+);
 
 //카테고리 삭제
-router.delete('/categories/:id', [validator.paramIdCheck, validator.validatorError], asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const category = await adminService.deleteCategory(id);
-  res.json(utils.buildResponse(category))
-}))
+router.delete(
+  '/categories/:id',
+  asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+    const category = await adminService.deleteCategory(id);
+    res.json(utils.buildResponse(category));
+  })
+);
 
 // 주문상태 수정
 router.put(
   '/orders/:id',
+  [validator.statusCheck, validator.validatorError],
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const { status } = req.body;

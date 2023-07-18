@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 
 /* 유틸 함수들의 묶음 */
 // 데이터 클랜징용 함수, 특정 객체에서 값이 undefined인 key가 있으면 해당 key-value를 삭제한다.
@@ -23,9 +23,50 @@ function buildResponse(data, errorMessage) {
   };
 }
 
-hashPassword = (pw) => crypto.createHash('sha256').update(pw).digest('hex');
+hashPassword = async (pw) => {
+  const saltRounds = 10;
+  const salt = await bcrypt.genSalt(saltRounds);
+  return await bcrypt.hash(pw, salt);
+}
 
-randomPassword = () => Math.random().toString(36).slice(2);
+function getRandomUpperCase() {
+  return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+}
+
+function getRandomLowerCase() {
+  return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+}
+
+function getRandomNumber() {
+  return String.fromCharCode(Math.floor(Math.random() * 10) + 48);
+}
+
+function getRandomSymbol() {
+  const symbol = '@$!%*#?&';
+  return symbol[Math.floor(Math.random() * symbol.length)];
+}
+
+const randomFunc = [getRandomUpperCase, getRandomLowerCase, getRandomNumber, getRandomSymbol];
+
+function getRandomFunc() {
+  return randomFunc[Math.floor(Math.random() * Object.keys(randomFunc).length)];
+}
+
+function randomPassword() {
+  let password = '';
+  const passwordLength = Math.random() * (12 - 8) + 8;
+  for (let i = 1; i <= passwordLength; i++) {
+    password += getRandomFunc()();
+  }
+  //check with regex
+  const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
+  if (!password.match(regex)) {
+    password = randomPassword();
+  }
+  return password;
+}
+
+
 module.exports = {
   sanitizeObject,
   buildResponse,

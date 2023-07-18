@@ -1,17 +1,17 @@
 const jwt = require('jsonwebtoken');
+const AppError = require('../misc/AppError');
 
 module.exports = (req, res, next) => {
   try {
-    const Token = req.cookies.loginToken.token;
+    const Token = req.cookies.loginToken;
     if (!Token || Token === 'null') {
-      res.json('로그인이 필요한 서비스입니다.');
-      return;
+      throw new AppError('Unauthorized', 401, '로그인 후 사용해주세요.');
     }
-    const jwtDecoded = jwt.verify(Token, process.env.JWT_SECRET_KEY);
-    const userId = jwtDecoded.id;
-    req.userId = userId;
+    jwt.verify(Token.token, process.env.JWT_SECRET_KEY, (err, decoded) => {
+      req.userId = decoded.id;
+    });
     next();
   } catch (error) {
-    res.json('정상적인 토큰이 아닙니다.');
+    next(error);
   }
 };

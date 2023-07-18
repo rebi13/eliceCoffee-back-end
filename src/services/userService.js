@@ -1,6 +1,8 @@
-const userModel = require('../db/models');
+const { userModel } = require('../db/models');
 const jwt = require('jsonwebtoken');
 const { hashPassword, randomPassword } = require('../misc/utils');
+const bcrypt = require('bcrypt');
+const AppError = require('../misc/AppError');
 
 class userService {
   constructor(userModel) {
@@ -10,14 +12,14 @@ class userService {
     const { id, pw } = userInfo;
     const user = await this.userModel.findById(id);
     if (!user) {
-      throw new Error('가입되지 않은 ID입니다.');
-    }
-    const isPasswordCorrect = user.pw === hashPassword(pw);
-    if (!isPasswordCorrect) {
-      throw new Error('PW를 확인해 주세요.');
+      throw new AppError('Bad Request', 400, "가입되지 않은 ID입니다.");
     }
     if (!user.isActivated) {
-      throw new Error('탈퇴한 사용자입니다.');
+      throw new AppError('Bad Request', 400, '사용할 수 없는 ID입니다.');
+    }
+    const isPasswordCorrect = bcrypt.compareSync(pw, user.pw);
+    if (!isPasswordCorrect) {
+      throw new AppError('Bad Request', 400, 'PW를 확인해 주세요.');
     }
     const role = user.role;
     const secretKey = process.env.JWT_SECRET_KEY;
@@ -25,28 +27,28 @@ class userService {
     return { token };
   }
 
-  async addUser(userInfo) {
+  async postUser(userInfo) {
     const { id, pw, name, email, phone } = userInfo;
     const user = await userModel.findByEmail(email);
     if (user) {
       if (!user.isActivated) {
-        throw new Error('탈퇴한 사용자입니다.');
+        throw new AppError('Bad Request', 400, '사용할 수 없는 ID입니다.');
       }
-      throw new Error('이미 사용중인 이메일입니다.');
+      throw new AppError('Bad Request', 400, '이미 사용중인 이메일입니다.');
     }
-    const hashedPW = hashPassword(pw);
-    const newUserInfo = { id, pw: hashedPW, name, email, phone };
-    const newUser = await this.userModel.create(newUserInfo);
+    const hashedPW = await hashPassword(pw);
+    const newUser = await this.userModel.create({ id, pw: hashedPW, name, email, phone });
     return newUser;
   }
 
-  async duplicateTest(id) {
+  async isDuplicated(id) {
     const user = await userModel.findById(id);
     if (user) {
-      throw new Error('이미 사용중인 아이디입니다.');
-    }
-    if (!user.isActivated) {
-      throw new Error('탈퇴한 사용자입니다.');
+      // if (!user.isActivated) {
+      //   throw new Error('사용할 수 없는 ID입니다.');
+      // }
+      // throw new Error('이미 사용중인 아이디입니다.');
+      return false;
     }
     return true;
   }
@@ -56,46 +58,74 @@ class userService {
     return user;
   }
 
-  async findingId(email) {
+  async getId(email) {
     const user = await userModel.findByEmail(email);
     if (!user) {
-      throw new Error('가입되지 않은 이메일입니다.');
+      throw new AppError('Bad Request', 400, '가입되지 않은 이메일입니다.');
     }
     if (!user.isActivated) {
-      throw new Error('탈퇴한 사용자입니다.');
+      throw new AppError('Bad Request', 400, '사용할 수 없는 ID입니다.');
     }
     const userId = user.id;
     return { userId };
   }
 
-  async resetPW(userInfo) {
+  async postPW(userInfo) {
     const { id, email } = userInfo;
     const user = await userModel.findById(id);
     if (!user) {
-      throw new Error('가입되지 않은 아이디입니다.');
+      throw new AppError('Bad Request', 400, '가입되지 않은 아이디입니다.');
     }
     if (user.email !== email) {
-      throw new Error('가입되지 않은 이메일입니다.');
+      throw new AppError('Bad Request', 400, '가입되지 않은 이메일입니다.');
     }
     if (!user.isActivated) {
-      throw new Error('탈퇴한 사용자입니다.');
+      throw new AppError('Bad Request', 400, '사용할 수 없는 ID입니다.');
     }
     const randompw = randomPassword();
-    const hashedRPW = hashPassword(randompw);
-    await this.userModel.resetPassword({ id, hashedRPW });
+    const hashedRPW = await hashPassword(randompw);
+    await this.userModel.updatePassword({ id, hashedRPW });
     return randompw;
   }
 
-  async editUser(userInfo) {
-    const { userId, address, pw } = userInfo;
-    const hashedPW = hashPassword(pw);
-    return await this.userModel.editUser({ userId, address, hashedPW });
+  async putUser(userInfo) {
+    const { userId, email, phone, newPw } = userInfo;
+    if (newPw === undefined) {
+      return await this.userModel.updateUser(userId, { email, phone });
+    }
+    else {
+      const hashedPW = await hashPassword(newPw);
+      return await this.userModel.updateUser(userId, { email, phone, hashedPW });
+    }
   }
 
   async deleteUser(userToken) {
     const userId = jwt.verify(userToken, process.env.JWT_SECRET_KEY).id;
     return await this.userModel.deleteUser(userId);
   }
+
+  async putTotal(info) {
+    return await this.userModel.updateTotal(info);
+  }
+
+  async putRank(id) {
+    return await this.userModel.updateRank(id);
+  }
+
+  // 관리자 계정 생성
+  // async postAdmin(userInfo) {
+  //   const { id, pw, name, email, phone } = userInfo;
+  //   const user = await userModel.findByEmail(email);
+  //   if (user) {
+  //     if (!user.isActivated) {
+  //       throw new Error('사용할 수 없는 ID입니다.');
+  //     }
+  //     throw new Error('이미 사용중인 이메일입니다.');
+  //   }
+  //   const hashedPW = await hashPassword(pw);
+  //   const newUser = await this.userModel.create({ id, pw: hashedPW, name, email, phone, role: "admin" });
+  //   return newUser;
+  // }
 }
 
 module.exports = new userService(userModel);

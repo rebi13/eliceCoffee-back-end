@@ -34,10 +34,6 @@ const UserSchema = new Schema(
     profile: {
       type: String,
     },
-    createDate: {
-      type: Date,
-      default: new Date(),
-    },
     wishList: {
       type: Array,
       default: [],
@@ -48,14 +44,21 @@ const UserSchema = new Schema(
     },
     rank: {
       type: String,
+      enum: ['bronze', 'silver', 'gold'],
+      default: 'bronze'
     },
     isActivated: {
       type: Boolean,
       default: true,
     },
+    totalPurchase: {
+      type: Number,
+      default: 0,
+    }
   },
   {
     collection: 'users',
+    timestamps: { currentTime: () => new Date(new Date().getTime() + 1000 * 60 * 60 * 9) }
   }
 );
 

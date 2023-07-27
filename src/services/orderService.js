@@ -13,7 +13,7 @@ class OrderService {
 
   // 주문 내역 특정 내역 조회 사용자
   async getOrder(userId, id) {
-    const order = await this.orderModel.findOrderById(userId, id);
+    const order = await this.orderModel.findOrderByIdAndUserId(userId, id);
     return order;
   }
 

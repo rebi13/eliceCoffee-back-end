@@ -10,7 +10,7 @@ class CategoryModel {
   }
   // 카테고리id로 조회
   async findById(id) {
-    return await Category.findOne({ id: id }).lean();
+    return await Category.findById(id).lean();
   }
   // 카테고리 이름으로 조회
   async findByName(name) {

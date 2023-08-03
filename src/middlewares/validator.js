@@ -2,7 +2,7 @@ const { validationResult, body, param } = require('express-validator');
 
 const idCheck = body('id')
   .notEmpty()
-  .matches(/^[a-z0-9]{8,12}$/)
+  .matches(/^[a-zA-Z0-9]{8,12}$/)
   .withMessage('Id: 최소 8자, 최대 12자, 영소문자 및 숫자만 포함되어야 합니다');
 
 const passwordCheck = body('pw')

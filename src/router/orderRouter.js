@@ -42,19 +42,23 @@ router.put(
   })
 );
 
-// 주문취소 
-router.patch('/:orderId/cancel', asyncHandler(async (req, res, next) => {
-  const { orderId } = req.params;
-  const userId = req.userId;
-  const data = await orderService.putStatus(orderId, { status: 'pending' });
-  const order = await orderService.getOrder(userId, orderId);
-  const itemTotal = Number(0 - order[0].itemTotal);
-  await userService.putTotal({
-    userId, itemTotal
-  });
-  await userService.putRank(userId);
-  res.json(utils.buildResponse(data));
-}))
+// 주문취소
+router.patch(
+  '/:orderId/cancel',
+  asyncHandler(async (req, res, next) => {
+    const { orderId } = req.params;
+    const userId = req.userId;
+    const data = await orderService.putStatus(orderId, { status: 'pending' });
+    const order = await orderService.getOrder(userId, orderId);
+    const itemTotal = Number(0 - order[0].itemTotal);
+    await userService.putTotal({
+      userId,
+      itemTotal,
+    });
+    await userService.putRank(userId);
+    res.json(utils.buildResponse(data));
+  })
+);
 
 // 주문하기
 router.post(
@@ -69,10 +73,11 @@ router.post(
       address,
       receiver,
       receiverPhone,
-      status: "paid",
+      status: 'paid',
     });
     await userService.putTotal({
-      userId, itemTotal
+      userId,
+      itemTotal,
     });
     await userService.putRank(userId);
     res.json(utils.buildResponse(data));
